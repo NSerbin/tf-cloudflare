@@ -77,8 +77,8 @@ google_sso = {
 github_sso = {
   name          = "GitHub OAuth"
   type          = "github"
-  client_id     = "${env:GITHUB_CLIENT_ID}"
-  client_secret = "${env:GITHUB_CLIENT_SECRET}"
+  client_id     = "${env:GH_CLIENT_ID}"
+  client_secret = "${env:GH_CLIENT_SECRET}"
 }
 
 grafana = {
