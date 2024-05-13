@@ -18,9 +18,13 @@ nserbin_website_zone = {
   type = "full"
 }
 
-raspberry_pi = {
-  name   = "Raspberry PI"
-  secret = "${env:RPI_TOKEN}"
+raspberry_pi_tunnel = {
+  name                      = "Raspberry PI"
+  secret                    = "${env:RPI_TOKEN}"
+  warp_routing              = false
+  auto_redirect_to_identity = false
+  type                      = "self_hosted"
+  session_duration          = "24h"  
 }
 
 sendgrid_em = {
@@ -61,4 +65,103 @@ dns_records = {
   type    = "CNAME"
   ttl     = 1
   proxied = true
+}
+
+google_sso = {
+  name          = "Google-SSO"
+  type          = "google"
+  client_id     = "${env:GOOGLE_CLIENT_ID}"
+  client_secret = "${env:GOOGLE_CLIENT_SECRET}"
+}
+
+github_sso = {
+  name          = "GitHub OAuth"
+  type          = "github"
+  client_id     = "${env:GITHUB_CLIENT_ID}"
+  client_secret = "${env:GITHUB_CLIENT_SECRET}"
+}
+
+grafana = {
+  name     = "Grafana"
+  url      = "${env:GRAFANA_URL}"
+  domain   = "${env:GRAFANA_DOMAIN}"
+  logo_url = "${env:GRAFANA_LOGO_URL}"
+}
+
+cadvisor = {
+  name     = "CAdvisor"
+  url      = "${env:CADVISOR_URL}"
+  domain   = "${env:CADVISOR_DOMAIN}"
+  logo_url = "${env:CADVISOR_LOGO_URL}"
+}
+
+prometheus = {
+  name     = "Prometheus"
+  url      = "${env:PROMETHEUS_URL}"
+  domain   = "${env:PROMETHEUS_DOMAIN}"
+  logo_url = "${env:PROMETHEUS_LOGO_URL}"
+}
+
+freshrss = {
+  name     = "FreshRSS"
+  url      = "${env:FRESHRSS_URL}"
+  domain   = "${env:FRESHRSS_DOMAIN}"
+  logo_url = "${env:FRESHRSS_LOGO_URL}"
+}
+
+homepage = {
+  name     = "Homepage Dashboard"
+  url      = "${env:HOMEPAGE_URL}"
+  domain   = "${env:HOMEPAGE_DOMAIN}"
+  logo_url = "${env:HOMEPAGE_LOGO_URL}"
+}
+
+n8n = {
+  name     = "n8n"
+  url      = "${env:N8N_URL}"
+  domain   = "${env:N8N_DOMAIN}"
+  logo_url = "${env:N8N_LOGO_URL}"
+}
+
+filebrowser = {
+  name     = "FileBrowser"
+  url      = "${env:FILEBROWSER_URL}"
+  domain   = "${env:FILEBROWSER_DOMAIN}"
+  logo_url = "${env:FILEBROWSER_LOGO_URL}"
+}
+
+remmina = {
+  name     = "Remmina SSH"
+  url      = "${env:REMMINA_URL}"
+  domain   = "${env:REMMINA_DOMAIN}"
+  logo_url = "${env:REMMINA_LOGO_URL}"
+}
+
+uptimekuma = {
+  name     = "Status"
+  url      = "${env:UPTIMEKUMA_URL}"
+  domain   = "${env:UPTIMEKUMA_DOMAIN}"
+  logo_url = "${env:UPTIMEKUMA_LOGO_URL}"
+}
+
+portainer = {
+  name     = "Portainer"
+  url      = "${env:PORTAINER_URL}"
+  domain   = "${env:PORTAINER_DOMAIN}"
+  logo_url = "${env:PORTAINER_LOGO_URL}" 
+}
+
+pihole = {
+  name     = "PiHole"
+  url      = "${env:PIHOLE_URL}"
+  domain   = "${env:PIHOLE_DOMAIN}"
+  logo_url = "${env:PIHOLE_LOGO_URL}"
+}
+
+bitwarden = {
+  name         = "Bitwarden"
+  url          = "${env:BITWARDEN_URL}"
+  domain       = "${env:BITWARDEN_DOMAIN}"
+  admin_domain = "${env:BITWARDEN_ADMIN_DOMAIN}"
+  logo_url     = "${env:BITWARDEN_LOGO_URL}"
 }

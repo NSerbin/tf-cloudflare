@@ -2,7 +2,7 @@
 
 resource "cloudflare_record" "nserbin_website" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.nserbin_website["domain"]
+  name    = var.nserbin_website["name"]
   value   = var.nserbin_website["value"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
