@@ -1,0 +1,16 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+      - test
+    tags:
+      - "**"
+
+jobs:
+  tf_checks:
+    uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
+    with:
+      terraform_version: 1.8.3
+    secrets: inherit
