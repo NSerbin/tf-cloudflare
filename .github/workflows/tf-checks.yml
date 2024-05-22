@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - test
+    tags:
+    - "*"
 
 jobs:
   tf_checks:
