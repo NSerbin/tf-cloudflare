@@ -1,4 +1,4 @@
-name: deploy
+name: Checking Terraform Code
 
 on:
   push:
@@ -8,9 +8,46 @@ on:
     tags:
     - "*"
 
+# jobs:
+#   tf_checks:
+#     uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
+#     with:
+#       terraform_version: 1.8.3
+#     secrets: inherit
+
 jobs:
-  tf_checks:
-    uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
-    with:
-      terraform_version: 1.8.3
-    secrets: inherit
+  terraform_checks:
+    name: Terraform Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.6
+        with:
+          fetch-depth: 0
+      - name: Export secret as env
+        if: ${{ env.secret != 'null' }}
+        run: echo "$secret" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+        env: 
+          secret: ${{ toJson(secrets) }}
+      - name: Export vars as env
+        if: ${{ env.var != 'null' }}
+        env:
+          var: ${{ toJson(vars) }}
+        run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.1
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Format
+        id: fmt
+        #run: terraform fmt -check -recursive -diff
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
