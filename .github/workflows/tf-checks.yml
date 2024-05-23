@@ -33,7 +33,10 @@ jobs:
         if: ${{ env.var != 'null' }}
         env:
           var: ${{ toJson(vars) }}
-        run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
+        run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+      - name: TEST SECRETS
+        run: echo "Secret CF API TOKEN ${{ secrets.CF_API_TOKEN }}"
+                
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.1
         with:
