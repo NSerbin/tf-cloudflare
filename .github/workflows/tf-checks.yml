@@ -82,7 +82,6 @@ jobs:
       SENDGRID_URL_NAME_6: ${{ secrets.SENDGRID_URL_NAME_6 }}
       UPTIMEKUMA_DOMAIN: ${{ secrets.UPTIMEKUMA_DOMAIN }}
       UPTIMEKUMA_URL: ${{ secrets.UPTIMEKUMA_URL }}
-    tf_checks:
-        uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
-        with:
-          terraform_version: 1.8.3
+    uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
+    with:
+      terraform_version: 1.8.3
