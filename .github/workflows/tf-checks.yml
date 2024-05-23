@@ -1,3 +1,21 @@
+# name: deploy
+
+# on:
+#   push:
+#     branches:
+#       - main
+#       - test
+#     tags:
+#     - "*"
+
+
+# jobs:
+#   tf_checks:
+#     uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
+#     with:
+#       terraform_version: 1.8.3
+#     secrets: inherit
+
 name: deploy
 
 on:
@@ -64,6 +82,8 @@ jobs:
       SENDGRID_URL_NAME_6: ${{ secrets.SENDGRID_URL_NAME_6 }}
       UPTIMEKUMA_DOMAIN: ${{ secrets.UPTIMEKUMA_DOMAIN }}
       UPTIMEKUMA_URL: ${{ secrets.UPTIMEKUMA_URL }}
-    uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
-    with:
-      terraform_version: 1.8.3
+    steps:
+      - name: Run Terraform Checks
+        uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
+        with:
+          terraform_version: 1.8.3
