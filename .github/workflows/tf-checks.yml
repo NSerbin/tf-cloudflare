@@ -34,9 +34,6 @@ jobs:
         env:
           var: ${{ toJson(vars) }}
         run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
-      - name: TEST SECRETS
-        run: echo "Secret CF API TOKEN ${{ secrets.CF_API_TOKEN }}"
-                
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.1
         with:
@@ -50,6 +47,60 @@ jobs:
         id: fmt
         #run: terraform fmt -check -recursive -diff
         run: terraform fmt -check -recursive
+        env:
+          BITWARDEN_ADMIN_DOMAIN: ${{ secrets.BITWARDEN_ADMIN_DOMAIN }}
+          BITWARDEN_DOMAIN: ${{ secrets.BITWARDEN_DOMAIN }}
+          BITWARDEN_URL: ${{ secrets.BITWARDEN_URL }}
+          CADVISOR_DOMAIN: ${{ secrets.CADVISOR_DOMAIN }}
+          CADVISOR_URL: ${{ secrets.CADVISOR_URL }}
+          CF_ACCOUNT: ${{ secrets.CF_ACCOUNT }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          FILEBROWSER_DOMAIN: ${{ secrets.FILEBROWSER_DOMAIN }}
+          FILEBROWSER_URL: ${{ secrets.FILEBROWSER_URL }}
+          FRESHRSS_DOMAIN: ${{ secrets.FRESHRSS_DOMAIN }}
+          FRESHRSS_URL: ${{ secrets.FRESHRSS_URL }}
+          GH_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+          GH_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}  
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GRAFANA_DOMAIN: ${{ secrets.GRAFANA_DOMAIN }}
+          GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
+          HOMEPAGE_DOMAIN: ${{ secrets.HOMEPAGE_DOMAIN }}
+          HOMEPAGE_URL: ${{ secrets.HOMEPAGE_URL }}
+          N8N_DOMAIN: ${{ secrets.N8N_DOMAIN }}
+          N8N_URL: ${{ secrets.N8N_URL }}
+          NS_CONTACT_EMAIL: ${{ secrets.NS_CONTACT_EMAIL }}
+          NS_EMAIL: ${{ secrets.NS_EMAIL }}
+          NS_GH_URL: ${{ secrets.NS_GH_URL }}      
+          NS_HELP_EMAIL: ${{ secrets.NS_HELP_EMAIL }}
+          NS_URL: ${{ secrets.NS_URL }}
+          PIHOLE_DOMAIN: ${{ secrets.PIHOLE_DOMAIN }}
+          PIHOLE_URL: ${{ secrets.PIHOLE_URL }}
+          PORTAINER_DOMAIN: ${{ secrets.PORTAINER_DOMAIN }}
+          PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
+          PROMETHEUS_DOMAIN: ${{ secrets.PROMETHEUS_DOMAIN }}
+          PROMETHEUS_URL: ${{ secrets.PROMETHEUS_URL }}
+          REMMINA_DOMAIN: ${{ secrets.REMMINA_DOMAIN }}
+          REMMINA_URL: ${{ secrets.REMMINA_URL }}
+          RPI_TOKEN: ${{ secrets.RPI_TOKEN }}
+          SENDGRID_DOMAINKEY_NAME_1: ${{ secrets.SENDGRID_DOMAINKEY_NAME_1 }}
+          SENDGRID_DOMAINKEY_NAME_2: ${{ secrets.SENDGRID_DOMAINKEY_NAME_2 }}
+          SENDGRID_DOMAINKEY_VALUE_1: ${{ secrets.SENDGRID_DOMAINKEY_VALUE_1 }}
+          SENDGRID_DOMAINKEY_VALUE_2: ${{ secrets.SENDGRID_DOMAINKEY_VALUE_2 }}
+          SENDGRID_EM_NAME_1: ${{ secrets.SENDGRID_EM_NAME_1 }}
+          SENDGRID_EM_NAME_2: ${{ secrets.SENDGRID_EM_NAME_2 }}
+          SENDGRID_EM_NAME_3: ${{ secrets.SENDGRID_EM_NAME_3 }}
+          SENDGRID_EM_NAME_4: ${{ secrets.SENDGRID_EM_NAME_4 }}
+          SENDGRID_EM_VALUE: ${{ secrets.SENDGRID_EM_VALUE }}
+          SENDGRID_NAME: ${{ secrets.SENDGRID_NAME }}      
+          SENDGRID_URL_NAME_1: ${{ secrets.SENDGRID_URL_NAME_1 }}
+          SENDGRID_URL_NAME_2: ${{ secrets.SENDGRID_URL_NAME_2 }}
+          SENDGRID_URL_NAME_3: ${{ secrets.SENDGRID_URL_NAME_3 }}
+          SENDGRID_URL_NAME_4: ${{ secrets.SENDGRID_URL_NAME_4 }}
+          SENDGRID_URL_NAME_5: ${{ secrets.SENDGRID_URL_NAME_5 }}
+          SENDGRID_URL_NAME_6: ${{ secrets.SENDGRID_URL_NAME_6 }}
+          UPTIMEKUMA_DOMAIN: ${{ secrets.UPTIMEKUMA_DOMAIN }}
+          UPTIMEKUMA_URL: ${{ secrets.UPTIMEKUMA_URL }}
 
       - name: Terraform Validate
         id: validate
