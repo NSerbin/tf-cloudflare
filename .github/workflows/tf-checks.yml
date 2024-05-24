@@ -8,6 +8,10 @@ on:
     tags:
     - "*"
 
+permissions:
+  contents: read
+  pull-requests: write
+
 # jobs:
 #   tf_checks:
 #     uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
