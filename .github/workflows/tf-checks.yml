@@ -49,7 +49,7 @@ jobs:
       - name: Terraform Format
         id: fmt
         #run: terraform fmt -check -recursive -diff
-        run: terraform fmt -check -recursive -diff -wrte=true
+        run: terraform fmt -check -recursive -diff -write=true
         continue-on-error: true
 
       - name: Terraform Validate
