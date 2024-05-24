@@ -38,7 +38,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3.1.1
         with:
           terraform_version: ${{ inputs.terraform_version }}
-      - name: Export secrets as environment variables
         env:
           TF_VAR_BITWARDEN_ADMIN_DOMAIN: ${{ secrets.BITWARDEN_ADMIN_DOMAIN }}
           TF_VAR_BITWARDEN_DOMAIN: ${{ secrets.BITWARDEN_DOMAIN }}
