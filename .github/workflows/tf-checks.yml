@@ -38,6 +38,9 @@ jobs:
         uses: hashicorp/setup-terraform@v3.1.1
         with:
           terraform_version: ${{ inputs.terraform_version }}
+      - name: Terraform Init
+        id: init
+        run: terraform init
         env:
           TF_VAR_BITWARDEN_ADMIN_DOMAIN: ${{ secrets.BITWARDEN_ADMIN_DOMAIN }}
           TF_VAR_BITWARDEN_DOMAIN: ${{ secrets.BITWARDEN_DOMAIN }}
@@ -91,10 +94,7 @@ jobs:
           TF_VAR_SENDGRID_URL_NAME_5: ${{ secrets.SENDGRID_URL_NAME_5 }}
           TF_VAR_SENDGRID_URL_NAME_6: ${{ secrets.SENDGRID_URL_NAME_6 }}
           TF_VAR_UPTIMEKUMA_DOMAIN: ${{ secrets.UPTIMEKUMA_DOMAIN }}
-          TF_VAR_UPTIMEKUMA_URL: ${{ secrets.UPTIMEKUMA_URL }}
-      - name: Terraform Init
-        id: init
-        run: terraform init
+          TF_VAR_UPTIMEKUMA_URL: ${{ secrets.UPTIMEKUMA_URL }}        
 
       - name: Terraform Format
         id: fmt
