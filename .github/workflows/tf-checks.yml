@@ -1,24 +1,3 @@
-# name: Checking Terraform Code
-
-# on:
-#   push:
-#     branches:
-#       - main
-#       - test
-#     tags:
-#     - "*"
-
-# permissions:
-#   contents: read
-#   pull-requests: write
-
-# jobs:
-#   tf_checks:
-#     uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
-#     with:
-#       terraform_version: 1.8.3
-#     secrets: inherit
-
 name: Checking Terraform Code
 
 on:
@@ -27,50 +6,71 @@ on:
       - main
       - test
     tags:
-      - "*"
+    - "*"
 
 permissions:
   contents: read
   pull-requests: write
 
 jobs:
-  terraform_checks:
-    name: Terraform Checks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4.1.6
-        with:
-          fetch-depth: 0
+  tf_checks:
+    uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
+    with:
+      terraform_version: 1.8.3
+    secrets: inherit
 
-      - name: Install envsubst
-        run: sudo apt-get update && sudo apt-get install -y gettext
-      - name: Export secret as env
-        if: ${{ env.secret != 'null' }}
-        run: echo "$secret" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
-        env: 
-          secret: ${{ toJson(secrets) }}
-      - name: Export vars as env
-        if: ${{ env.var != 'null' }}
-        env:
-          var: ${{ toJson(vars) }}
-        run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
-      - name: Substitute Environment Variables with envsubst
-        run: |
-          for file in $(find . -name "*.*.tfvars"); do
-            envsubst < "$file" > "$file.tmp" && mv "$file.tmp" "$file"
-          done
-      - name: Terraform Init
-        id: init
-        run: terraform init
+# name: Checking Terraform Code
 
-      - name: Terraform Format
-        id: fmt
-        run: terraform fmt -recursive -diff -write=true
-        continue-on-error: true
+# on:
+#   push:
+#     branches:
+#       - main
+#       - test
+#     tags:
+#       - "*"
 
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-        continue-on-error: true
+# permissions:
+#   contents: read
+#   pull-requests: write
+
+# jobs:
+#   terraform_checks:
+#     name: Terraform Checks
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v4.1.6
+#         with:
+#           fetch-depth: 0
+
+#       - name: Install envsubst
+#         run: sudo apt-get update && sudo apt-get install -y gettext
+#       - name: Export secret as env
+#         if: ${{ env.secret != 'null' }}
+#         run: echo "$secret" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+#         env: 
+#           secret: ${{ toJson(secrets) }}
+#       - name: Export vars as env
+#         if: ${{ env.var != 'null' }}
+#         env:
+#           var: ${{ toJson(vars) }}
+#         run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
+#       - name: Substitute Environment Variables with envsubst
+#         run: |
+#           for file in $(find . -name "*.*.tfvars"); do
+#             envsubst < "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+#           done
+#       - name: Terraform Init
+#         id: init
+#         run: terraform init
+
+#       - name: Terraform Format
+#         id: fmt
+#         run: terraform fmt -recursive -diff -write=true
+#         continue-on-error: true
+
+#       - name: Terraform Validate
+#         id: validate
+#         run: terraform validate -no-color
+#         continue-on-error: true
 
