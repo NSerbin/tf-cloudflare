@@ -1,0 +1,20 @@
+name: Checking the Plan of Terraform Code
+
+on:
+  push:
+    branches:
+      - main
+      - test
+    tags:
+    - "*"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  tf_check:
+    uses: NSerbin/gh-pipelines/.github/workflows/tf-plan.yml@main
+    with:
+      terraform_version: 1.8.3
+    secrets: inherit
