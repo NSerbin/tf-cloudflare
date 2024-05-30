@@ -39,24 +39,6 @@ jobs:
         uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
-
-      - name: Install envsubst
-        run: sudo apt-get update && sudo apt-get install -y gettext
-      - name: Export secret as env
-        if: ${{ env.secret != 'null' }}
-        run: echo "$secret" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
-        env: 
-          secret: ${{ toJson(secrets) }}
-      - name: Export vars as env
-        if: ${{ env.var != 'null' }}
-        env:
-          var: ${{ toJson(vars) }}
-        run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
-      - name: Substitute Environment Variables with envsubst
-        run: |
-          for file in $(find . -name "*.*.tfvars"); do
-            envsubst < "$file" > "$file.tmp" && mv "$file.tmp" "$file"
-          done
       - name: Terraform Init
         id: init
         run: terraform init
@@ -66,13 +48,13 @@ jobs:
         run: terraform fmt -recursive -diff -write=true
         continue-on-error: true
 
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        continue-on-error: true
+
       - name: Commit Terraform changes
         id: auto-commit-action
         uses: stefanzweifel/git-auto-commit-action@v5.0.1
         with:
           commit_message: "Auto-format Terraform files"
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-        continue-on-error: true
