@@ -67,7 +67,7 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -recursive -diff -write=true
+        run: terraform fmt -recursive -diff -write=false
         continue-on-error: true
 
       - name: Terraform Validate
