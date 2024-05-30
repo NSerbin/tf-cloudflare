@@ -19,6 +19,20 @@ permissions:
 #       terraform_version: 1.8.3
 #     secrets: inherit
 
+name: Checking Terraform Code
+
+on:
+  push:
+    branches:
+      - main
+      - test
+    tags:
+      - "*"
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   terraform_checks:
     name: Terraform Checks
@@ -28,27 +42,79 @@ jobs:
         uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
-      # - name: Export secret as env
-      #   if: ${{ env.secret != 'null' }}
-      #   run: echo "$secret" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
-      #   env: 
-      #     secret: ${{ toJson(secrets) }}
-      # - name: Export vars as env
-      #   if: ${{ env.var != 'null' }}
-      #   env:
-      #     var: ${{ toJson(vars) }}
-      #   run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3.1.1
-        with:
-          terraform_version: ${{ inputs.terraform_version }}
+
+      - name: Install gomplate
+        run: |
+          curl -Lo gomplate https://github.com/hairyhenderson/gomplate/releases/download/v3.11.3/gomplate_linux-amd64
+          chmod +x gomplate
+          sudo mv gomplate /usr/local/bin/
+
+      - name: Export All Secrets as Environment Variables
+        run: |
+          export CF_API_TOKEN=${{ secrets.CF_API_TOKEN }}
+          export CF_ACCOUNT=${{ secrets.CF_ACCOUNT }}
+          export NS_EMAIL=${{ secrets.NS_EMAIL }}
+          export NS_HELP_EMAIL=${{ secrets.NS_HELP_EMAIL }}
+          export NS_CONTACT_EMAIL=${{ secrets.NS_CONTACT_EMAIL }}
+          export NS_URL=${{ secrets.NS_URL }}
+          export NS_GH_URL=${{ secrets.NS_GH_URL }}
+          export RPI_TOKEN=${{ secrets.RPI_TOKEN }}
+          export SENDGRID_EM_NAME_1=${{ secrets.SENDGRID_EM_NAME_1 }}
+          export SENDGRID_EM_VALUE=${{ secrets.SENDGRID_EM_VALUE }}
+          export SENDGRID_EM_NAME_2=${{ secrets.SENDGRID_EM_NAME_2 }}
+          export SENDGRID_EM_NAME_3=${{ secrets.SENDGRID_EM_NAME_3 }}
+          export SENDGRID_EM_NAME_4=${{ secrets.SENDGRID_EM_NAME_4 }}
+          export SENDGRID_URL_NAME_1=${{ secrets.SENDGRID_URL_NAME_1 }}
+          export SENDGRID_URL_NAME_2=${{ secrets.SENDGRID_URL_NAME_2 }}
+          export SENDGRID_URL_NAME_3=${{ secrets.SENDGRID_URL_NAME_3 }}
+          export SENDGRID_URL_NAME_4=${{ secrets.SENDGRID_URL_NAME_4 }}
+          export SENDGRID_URL_NAME_5=${{ secrets.SENDGRID_URL_NAME_5 }}
+          export SENDGRID_URL_NAME_6=${{ secrets.SENDGRID_URL_NAME_6 }}
+          export SENDGRID_NAME=${{ secrets.SENDGRID_NAME }}
+          export SENDGRID_DOMAINKEY_NAME_1=${{ secrets.SENDGRID_DOMAINKEY_NAME_1 }}
+          export SENDGRID_DOMAINKEY_NAME_2=${{ secrets.SENDGRID_DOMAINKEY_NAME_2 }}
+          export SENDGRID_DOMAINKEY_VALUE_1=${{ secrets.SENDGRID_DOMAINKEY_VALUE_1 }}
+          export SENDGRID_DOMAINKEY_VALUE_2=${{ secrets.SENDGRID_DOMAINKEY_VALUE_2 }}
+          export GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          export GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          export GH_CLIENT_ID=${{ secrets.GH_CLIENT_ID }}
+          export GH_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }}
+          export GRAFANA_URL=${{ secrets.GRAFANA_URL }}
+          export GRAFANA_DOMAIN=${{ secrets.GRAFANA_DOMAIN }}
+          export CADVISOR_URL=${{ secrets.CADVISOR_URL }}
+          export CADVISOR_DOMAIN=${{ secrets.CADVISOR_DOMAIN }}
+          export PROMETHEUS_URL=${{ secrets.PROMETHEUS_URL }}
+          export PROMETHEUS_DOMAIN=${{ secrets.PROMETHEUS_DOMAIN }}
+          export FRESHRSS_URL=${{ secrets.FRESHRSS_URL }}
+          export FRESHRSS_DOMAIN=${{ secrets.FRESHRSS_DOMAIN }}
+          export HOMEPAGE_URL=${{ secrets.HOMEPAGE_URL }}
+          export HOMEPAGE_DOMAIN=${{ secrets.HOMEPAGE_DOMAIN }}
+          export N8N_URL=${{ secrets.N8N_URL }}
+          export N8N_DOMAIN=${{ secrets.N8N_DOMAIN }}
+          export FILEBROWSER_URL=${{ secrets.FILEBROWSER_URL }}
+          export FILEBROWSER_DOMAIN=${{ secrets.FILEBROWSER_DOMAIN }}
+          export REMMINA_URL=${{ secrets.REMMINA_URL }}
+          export REMMINA_DOMAIN=${{ secrets.REMMINA_DOMAIN }}
+          export UPTIMEKUMA_URL=${{ secrets.UPTIMEKUMA_URL }}
+          export UPTIMEKUMA_DOMAIN=${{ secrets.UPTIMEKUMA_DOMAIN }}
+          export PORTAINER_URL=${{ secrets.PORTAINER_URL }}
+          export PORTAINER_DOMAIN=${{ secrets.PORTAINER_DOMAIN }}
+          export PIHOLE_URL=${{ secrets.PIHOLE_URL }}
+          export PIHOLE_DOMAIN=${{ secrets.PIHOLE_DOMAIN }}
+          export BITWARDEN_URL=${{ secrets.BITWARDEN_URL }}
+          export BITWARDEN_DOMAIN=${{ secrets.BITWARDEN_DOMAIN }}
+          export BITWARDEN_ADMIN_DOMAIN=${{ secrets.BITWARDEN_ADMIN_DOMAIN }}
+
+      - name: Substitute Environment Variables with gomplate
+        run: |
+          find . -name "*.tf" -exec gomplate -d env=env:// -f {} -o {} \;
+
       - name: Terraform Init
         id: init
-        run: terraform init      
+        run: terraform init
 
       - name: Terraform Format
         id: fmt
-        #run: terraform fmt -check -recursive -diff
         run: terraform fmt -recursive -diff -write=true
         continue-on-error: true
 
@@ -56,57 +122,3 @@ jobs:
         id: validate
         run: terraform validate -no-color
         continue-on-error: true
-    env:
-      TF_VAR_BITWARDEN_ADMIN_DOMAIN: ${{ secrets.BITWARDEN_ADMIN_DOMAIN }}
-      TF_VAR_BITWARDEN_DOMAIN: ${{ secrets.BITWARDEN_DOMAIN }}
-      TF_VAR_BITWARDEN_URL: ${{ secrets.BITWARDEN_URL }}
-      TF_VAR_CADVISOR_DOMAIN: ${{ secrets.CADVISOR_DOMAIN }}
-      TF_VAR_CADVISOR_URL: ${{ secrets.CADVISOR_URL }}
-      TF_VAR_CF_ACCOUNT: ${{ secrets.CF_ACCOUNT }}
-      TF_VAR_CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-      TF_VAR_FILEBROWSER_DOMAIN: ${{ secrets.FILEBROWSER_DOMAIN }}
-      TF_VAR_FILEBROWSER_URL: ${{ secrets.FILEBROWSER_URL }}
-      TF_VAR_FRESHRSS_DOMAIN: ${{ secrets.FRESHRSS_DOMAIN }}
-      TF_VAR_FRESHRSS_URL: ${{ secrets.FRESHRSS_URL }}
-      TF_VAR_GH_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
-      TF_VAR_GH_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}  
-      TF_VAR_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      TF_VAR_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-      TF_VAR_GRAFANA_DOMAIN: ${{ secrets.GRAFANA_DOMAIN }}
-      TF_VAR_GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
-      TF_VAR_HOMEPAGE_DOMAIN: ${{ secrets.HOMEPAGE_DOMAIN }}
-      TF_VAR_HOMEPAGE_URL: ${{ secrets.HOMEPAGE_URL }}
-      TF_VAR_N8N_DOMAIN: ${{ secrets.N8N_DOMAIN }}
-      TF_VAR_N8N_URL: ${{ secrets.N8N_URL }}
-      TF_VAR_NS_CONTACT_EMAIL: ${{ secrets.NS_CONTACT_EMAIL }}
-      TF_VAR_NS_EMAIL: ${{ secrets.NS_EMAIL }}
-      TF_VAR_NS_GH_URL: ${{ secrets.NS_GH_URL }}      
-      TF_VAR_NS_HELP_EMAIL: ${{ secrets.NS_HELP_EMAIL }}
-      TF_VAR_NS_URL: ${{ secrets.NS_URL }}
-      TF_VAR_PIHOLE_DOMAIN: ${{ secrets.PIHOLE_DOMAIN }}
-      TF_VAR_PIHOLE_URL: ${{ secrets.PIHOLE_URL }}
-      TF_VAR_PORTAINER_DOMAIN: ${{ secrets.PORTAINER_DOMAIN }}
-      TF_VAR_PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
-      TF_VAR_PROMETHEUS_DOMAIN: ${{ secrets.PROMETHEUS_DOMAIN }}
-      TF_VAR_PROMETHEUS_URL: ${{ secrets.PROMETHEUS_URL }}
-      TF_VAR_REMMINA_DOMAIN: ${{ secrets.REMMINA_DOMAIN }}
-      TF_VAR_REMMINA_URL: ${{ secrets.REMMINA_URL }}
-      TF_VAR_RPI_TOKEN: ${{ secrets.RPI_TOKEN }}
-      TF_VAR_SENDGRID_DOMAINKEY_NAME_1: ${{ secrets.SENDGRID_DOMAINKEY_NAME_1 }}
-      TF_VAR_SENDGRID_DOMAINKEY_NAME_2: ${{ secrets.SENDGRID_DOMAINKEY_NAME_2 }}
-      TF_VAR_SENDGRID_DOMAINKEY_VALUE_1: ${{ secrets.SENDGRID_DOMAINKEY_VALUE_1 }}
-      TF_VAR_SENDGRID_DOMAINKEY_VALUE_2: ${{ secrets.SENDGRID_DOMAINKEY_VALUE_2 }}
-      TF_VAR_SENDGRID_EM_NAME_1: ${{ secrets.SENDGRID_EM_NAME_1 }}
-      TF_VAR_SENDGRID_EM_NAME_2: ${{ secrets.SENDGRID_EM_NAME_2 }}
-      TF_VAR_SENDGRID_EM_NAME_3: ${{ secrets.SENDGRID_EM_NAME_3 }}
-      TF_VAR_SENDGRID_EM_NAME_4: ${{ secrets.SENDGRID_EM_NAME_4 }}
-      TF_VAR_SENDGRID_EM_VALUE: ${{ secrets.SENDGRID_EM_VALUE }}
-      TF_VAR_SENDGRID_NAME: ${{ secrets.SENDGRID_NAME }}      
-      TF_VAR_SENDGRID_URL_NAME_1: ${{ secrets.SENDGRID_URL_NAME_1 }}
-      TF_VAR_SENDGRID_URL_NAME_2: ${{ secrets.SENDGRID_URL_NAME_2 }}
-      TF_VAR_SENDGRID_URL_NAME_3: ${{ secrets.SENDGRID_URL_NAME_3 }}
-      TF_VAR_SENDGRID_URL_NAME_4: ${{ secrets.SENDGRID_URL_NAME_4 }}
-      TF_VAR_SENDGRID_URL_NAME_5: ${{ secrets.SENDGRID_URL_NAME_5 }}
-      TF_VAR_SENDGRID_URL_NAME_6: ${{ secrets.SENDGRID_URL_NAME_6 }}
-      TF_VAR_UPTIMEKUMA_DOMAIN: ${{ secrets.UPTIMEKUMA_DOMAIN }}
-      TF_VAR_UPTIMEKUMA_URL: ${{ secrets.UPTIMEKUMA_URL }}  
