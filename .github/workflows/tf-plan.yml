@@ -1,4 +1,4 @@
-name: Checking the Plan of Terraform Code
+name: Terraform Code Plan
 
 on:
   push:
