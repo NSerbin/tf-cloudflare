@@ -57,7 +57,7 @@ jobs:
         run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
       - name: Substitute Environment Variables with envsubst
         run: |
-          for file in $(find . -name "*.tf"); do
+          for file in $(find . -name "*.*.tfvars"); do
             envsubst < "$file" > "$file.tmp" && mv "$file.tmp" "$file"
           done
       - name: Terraform Init
