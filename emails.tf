@@ -66,7 +66,7 @@ resource "cloudflare_email_routing_rule" "help_email_rule" {
 resource "cloudflare_record" "sendgrid_em_1" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = var.sendgrid_em["name_1"]
-  value   = var.sendgrid_em["value_1"]
+  value   = var.sendgrid_em["value"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.sendgrid["proxied"]
@@ -76,7 +76,7 @@ resource "cloudflare_record" "sendgrid_em_1" {
 resource "cloudflare_record" "sendgrid_em_2" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = var.sendgrid_em["name_2"]
-  value   = var.sendgrid_em["value_2"]
+  value   = var.sendgrid_em["value"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.sendgrid["proxied"]
@@ -86,7 +86,7 @@ resource "cloudflare_record" "sendgrid_em_2" {
 resource "cloudflare_record" "sendgrid_em_3" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = var.sendgrid_em["name_3"]
-  value   = var.sendgrid_em["value_3"]
+  value   = var.sendgrid_em["value"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.sendgrid["proxied"]
@@ -96,7 +96,7 @@ resource "cloudflare_record" "sendgrid_em_3" {
 resource "cloudflare_record" "sendgrid_em_4" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = var.sendgrid_em["name_4"]
-  value   = var.sendgrid_em["value_4"]
+  value   = var.sendgrid_em["value"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.sendgrid["proxied"]
