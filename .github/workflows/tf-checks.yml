@@ -48,24 +48,22 @@ jobs:
           curl -Lo gomplate https://github.com/hairyhenderson/gomplate/releases/download/v3.11.3/gomplate_linux-amd64
           chmod +x gomplate
           sudo mv gomplate /usr/local/bin/
-
-      - name: Export secrets as environment variables
-        run: echo "${{ toJson(secrets) }}" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
-
-      - name: Export vars as environment variables
+      - name: Export secret as env
+        if: ${{ env.secret != 'null' }}
+        run: echo "$secret" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+        env: 
+          secret: ${{ toJson(secrets) }}
+      - name: Export vars as env
         if: ${{ env.var != 'null' }}
-        run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
         env:
           var: ${{ toJson(vars) }}
-
+        run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
       - name: Substitute Environment Variables with gomplate
         run: |
           find . -name "*.tf" -exec gomplate -d env=env:// -f {} -o {} \;
-
       - name: Terraform Init
         id: init
         run: terraform init
-
       - name: Terraform Format
         id: fmt
         run: terraform fmt -recursive -diff -write=true
@@ -75,3 +73,4 @@ jobs:
         id: validate
         run: terraform validate -no-color
         continue-on-error: true
+
