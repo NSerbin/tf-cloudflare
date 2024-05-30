@@ -29,12 +29,12 @@ resource "cloudflare_email_routing_rule" "contact_email_rule" {
   matcher {
     type  = "literal"
     field = "to"
-    value = "contact@nserbin.com"
+    value = var.nserbin_website["contact_email"]
   }
 
   action {
     type  = "forward"
-    value = ["nicolas.serbin@gmail.com"]
+    value = [var.nserbin_website["email"]]
   }
 }
 
@@ -46,12 +46,12 @@ resource "cloudflare_email_routing_rule" "help_email_rule" {
   matcher {
     type  = "literal"
     field = "to"
-    value = "help@nserbin.com"
+    value = var.nserbin_website["help_email"]
   }
 
   action {
     type  = "forward"
-    value = ["nicolas.serbin@gmail.com"]
+    value = [var.nserbin_website["email"]]
   }
 }
 
