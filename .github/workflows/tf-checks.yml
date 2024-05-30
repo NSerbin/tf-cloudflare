@@ -60,7 +60,7 @@ jobs:
         run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
       - name: Substitute Environment Variables with gomplate
         run: |
-          find . -name "*.tf" -exec sh -c 'echo "Processing file: $1"; gomplate -d env=env:// -f "$1" -o "$1.tmp" && mv "$1.tmp" "$1"' _ {} \;
+          find . -name "*.*.tfvars" -exec sh -c 'echo "Processing file: $1"; gomplate -d env=env:// -f "$1" -o "$1.tmp" && mv "$1.tmp" "$1"' _ {} \;
       - name: Terraform Init
         id: init
         run: terraform init
