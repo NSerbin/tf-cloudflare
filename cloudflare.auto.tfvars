@@ -24,15 +24,15 @@ raspberry_pi_tunnel = {
   warp_routing              = false
   auto_redirect_to_identity = false
   type                      = "self_hosted"
-  session_duration          = "24h"  
+  session_duration          = "24h"
 }
 
 sendgrid_em = {
-  name_1  = "${SENDGRID_EM_NAME_1}"
-  value   = "${SENDGRID_EM_VALUE}"
-  name_2  = "${SENDGRID_EM_NAME_2}"
-  name_3  = "${SENDGRID_EM_NAME_3}"
-  name_4  = "${SENDGRID_EM_NAME_4}"
+  name_1 = "${SENDGRID_EM_NAME_1}"
+  value  = "${SENDGRID_EM_VALUE}"
+  name_2 = "${SENDGRID_EM_NAME_2}"
+  name_3 = "${SENDGRID_EM_NAME_3}"
+  name_4 = "${SENDGRID_EM_NAME_4}"
 }
 
 sendgrid_url = {
