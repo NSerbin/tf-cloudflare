@@ -49,61 +49,14 @@ jobs:
           chmod +x gomplate
           sudo mv gomplate /usr/local/bin/
 
-      - name: Export Environment Variables
+      - name: Export secrets as environment variables
+        run: echo "${{ toJson(secrets) }}" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Export vars as environment variables
+        if: ${{ env.var != 'null' }}
+        run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
         env:
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-          CF_ACCOUNT: ${{ secrets.CF_ACCOUNT }}
-          NS_EMAIL: ${{ secrets.NS_EMAIL }}
-          NS_HELP_EMAIL: ${{ secrets.NS_HELP_EMAIL }}
-          NS_CONTACT_EMAIL: ${{ secrets.NS_CONTACT_EMAIL }}
-          NS_URL: ${{ secrets.NS_URL }}
-          NS_GH_URL: ${{ secrets.NS_GH_URL }}
-          RPI_TOKEN: ${{ secrets.RPI_TOKEN }}
-          SENDGRID_EM_NAME_1: ${{ secrets.SENDGRID_EM_NAME_1 }}
-          SENDGRID_EM_VALUE: ${{ secrets.SENDGRID_EM_VALUE }}
-          SENDGRID_EM_NAME_2: ${{ secrets.SENDGRID_EM_NAME_2 }}
-          SENDGRID_EM_NAME_3: ${{ secrets.SENDGRID_EM_NAME_3 }}
-          SENDGRID_EM_NAME_4: ${{ secrets.SENDGRID_EM_NAME_4 }}
-          SENDGRID_URL_NAME_1: ${{ secrets.SENDGRID_URL_NAME_1 }}
-          SENDGRID_URL_NAME_2: ${{ secrets.SENDGRID_URL_NAME_2 }}
-          SENDGRID_URL_NAME_3: ${{ secrets.SENDGRID_URL_NAME_3 }}
-          SENDGRID_URL_NAME_4: ${{ secrets.SENDGRID_URL_NAME_4 }}
-          SENDGRID_URL_NAME_5: ${{ secrets.SENDGRID_URL_NAME_5 }}
-          SENDGRID_URL_NAME_6: ${{ secrets.SENDGRID_URL_NAME_6 }}
-          SENDGRID_NAME: ${{ secrets.SENDGRID_NAME }}
-          SENDGRID_DOMAINKEY_NAME_1: ${{ secrets.SENDGRID_DOMAINKEY_NAME_1 }}
-          SENDGRID_DOMAINKEY_NAME_2: ${{ secrets.SENDGRID_DOMAINKEY_NAME_2 }}
-          SENDGRID_DOMAINKEY_VALUE_1: ${{ secrets.SENDGRID_DOMAINKEY_VALUE_1 }}
-          SENDGRID_DOMAINKEY_VALUE_2: ${{ secrets.SENDGRID_DOMAINKEY_VALUE_2 }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GH_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
-          GH_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
-          GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
-          GRAFANA_DOMAIN: ${{ secrets.GRAFANA_DOMAIN }}
-          CADVISOR_URL: ${{ secrets.CADVISOR_URL }}
-          CADVISOR_DOMAIN: ${{ secrets.CADVISOR_DOMAIN }}
-          PROMETHEUS_URL: ${{ secrets.PROMETHEUS_URL }}
-          PROMETHEUS_DOMAIN: ${{ secrets.PROMETHEUS_DOMAIN }}
-          FRESHRSS_URL: ${{ secrets.FRESHRSS_URL }}
-          FRESHRSS_DOMAIN: ${{ secrets.FRESHRSS_DOMAIN }}
-          HOMEPAGE_URL: ${{ secrets.HOMEPAGE_URL }}
-          HOMEPAGE_DOMAIN: ${{ secrets.HOMEPAGE_DOMAIN }}
-          N8N_URL: ${{ secrets.N8N_URL }}
-          N8N_DOMAIN: ${{ secrets.N8N_DOMAIN }}
-          FILEBROWSER_URL: ${{ secrets.FILEBROWSER_URL }}
-          FILEBROWSER_DOMAIN: ${{ secrets.FILEBROWSER_DOMAIN }}
-          REMMINA_URL: ${{ secrets.REMMINA_URL }}
-          REMMINA_DOMAIN: ${{ secrets.REMMINA_DOMAIN }}
-          UPTIMEKUMA_URL: ${{ secrets.UPTIMEKUMA_URL }}
-          UPTIMEKUMA_DOMAIN: ${{ secrets.UPTIMEKUMA_DOMAIN }}
-          PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
-          PORTAINER_DOMAIN: ${{ secrets.PORTAINER_DOMAIN }}
-          PIHOLE_URL: ${{ secrets.PIHOLE_URL }}
-          PIHOLE_DOMAIN: ${{ secrets.PIHOLE_DOMAIN }}
-          BITWARDEN_URL: ${{ secrets.BITWARDEN_URL }}
-          BITWARDEN_DOMAIN: ${{ secrets.BITWARDEN_DOMAIN }}
-          BITWARDEN_ADMIN_DOMAIN: ${{ secrets.BITWARDEN_ADMIN_DOMAIN }}
+          var: ${{ toJson(vars) }}
 
       - name: Substitute Environment Variables with gomplate
         run: |
