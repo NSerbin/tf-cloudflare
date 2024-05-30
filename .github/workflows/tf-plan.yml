@@ -12,7 +12,6 @@ permissions:
   contents: write
   pull-requests: write
 
-
 jobs:
   tf_plan:
     uses: NSerbin/gh-pipelines/.github/workflows/tf-plan.yml@main
