@@ -8,53 +8,13 @@ on:
     tags:
     - "*"
 
-
 permissions:
   contents: write
   pull-requests: write
 
-# jobs:
-#   tf_check:
-#     uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
-#     with:
-#       terraform_version: 1.8.3
-#     secrets: inherit
-
-# name: Terraform Checks
-
-# on:
-#   workflow_call:
-#     inputs:
-#       terraform_version:
-#         required: true
-#         type: string
-#         default: 1.8.3
-
 jobs:
-  terraform_checks:
-    name: Terraform Checks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4.1.6
-        with:
-          fetch-depth: 0
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Terraform Format
-        id: fmt
-        run: terraform fmt -recursive -diff -write=true
-        continue-on-error: true
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-        continue-on-error: true
-
-      - name: Commit Terraform changes
-        id: auto-commit-action
-        uses: stefanzweifel/git-auto-commit-action@v5.0.1
-        with:
-          commit_message: "Auto-format Terraform files"
+  tf_check:
+    uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@main
+    with:
+      terraform_version: 1.8.3
+    secrets: inherit
