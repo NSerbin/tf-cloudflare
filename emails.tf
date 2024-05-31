@@ -55,12 +55,6 @@ resource "cloudflare_email_routing_rule" "help_email_rule" {
   }
 }
 
-# resource "cloudflare_email_routing_settings" "nserbin_email_routing" {
-#   zone_id = cloudflare_zone.nserbin_website_zone.id
-#   enabled = "true"
-#   skip_wizard = "true"
-# }
-
 ### Sendgrid EM Records
 
 resource "cloudflare_record" "sendgrid_em_1" {
