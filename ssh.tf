@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "ssh_tunnel_app" {
 }
 
 ## SSH Policy
-resource "cloudflare_access_policy" "remmina_policy_default" {
+resource "cloudflare_access_policy" "ssh_tunnel_policy_default" {
   application_id = cloudflare_access_application.ssh_tunnel_app.id
   zone_id        = cloudflare_zone.nserbin_website_zone.id
   name           = "Default Policy"
@@ -23,7 +23,7 @@ resource "cloudflare_access_policy" "remmina_policy_default" {
   }
 }
 
-resource "cloudflare_access_ca_certificate" "ssh_cert" {
+resource "cloudflare_access_ca_certificate" "ssh_tunnel_cert" {
   zone_id        = cloudflare_zone.nserbin_website_zone.id
   application_id = cloudflare_access_application.ssh_tunnel_app.id
 }
