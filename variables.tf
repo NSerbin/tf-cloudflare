@@ -135,3 +135,9 @@ variable "bitwarden" {
   type        = map(string)
   default     = {}
 }
+
+variable "ssh" {
+  description = "Map containing all SSH Tunnel configuration"
+  type        = map(string)
+  default     = {}
+}
