@@ -179,7 +179,7 @@ resource "cloudflare_tunnel_config" "raspberry_pi_public_hostnames" {
       service  = var.ssh["url"]
       origin_request {
         access {
-          required = true
+          required  = true
           team_name = "moodle"
         }
       }

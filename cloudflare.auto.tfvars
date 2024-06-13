@@ -167,8 +167,8 @@ bitwarden = {
 }
 
 ssh = {
-  name         = "SSH Tunnel"
-  url          = "${SSH_URL}" 
-  domain       = "${SSH_DOMAIN}"
-  type         = "ssh"
+  name   = "SSH Tunnel"
+  url    = "${SSH_URL}"
+  domain = "${SSH_DOMAIN}"
+  type   = "ssh"
 }
