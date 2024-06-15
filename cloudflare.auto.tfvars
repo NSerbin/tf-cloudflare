@@ -25,8 +25,8 @@ raspberry_pi_tunnel = {
   auto_redirect_to_identity = false
   type                      = "self_hosted"
   session_duration          = "24h"
-  record                    = "${RPI_TUNNEL_ID}"  
-  comment                   = "Raspberry PI Tunnel"  
+  record                    = "${RPI_TUNNEL_ID}"
+  comment                   = "Raspberry PI Tunnel"
 }
 
 sendgrid_em = {
@@ -107,7 +107,7 @@ prometheus = {
 
 freshrss = {
   name     = "freshrss"
-  prefix   = "rss"  
+  prefix   = "rss"
   url      = "${FRESHRSS_URL}"
   domain   = "${FRESHRSS_DOMAIN}"
   logo_url = "${FRESHRSS_LOGO_URL}"
@@ -129,7 +129,7 @@ n8n = {
 
 filebrowser = {
   name     = "FileBrowser"
-  prefix   = "vault"  
+  prefix   = "vault"
   url      = "${FILEBROWSER_URL}"
   domain   = "${FILEBROWSER_DOMAIN}"
   logo_url = "${FILEBROWSER_LOGO_URL}"
@@ -165,7 +165,7 @@ pihole = {
 
 bitwarden = {
   name         = "bitwarden"
-  prefix       = "btw"  
+  prefix       = "btw"
   url          = "${BITWARDEN_URL}"
   domain       = "${BITWARDEN_DOMAIN}"
   admin_domain = "${BITWARDEN_ADMIN_DOMAIN}"

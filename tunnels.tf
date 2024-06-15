@@ -169,7 +169,7 @@ resource "cloudflare_tunnel_config" "raspberry_pi_public_hostnames" {
         access {
           required  = true
           team_name = "moodle"
-          aud_tag  = [cloudflare_access_application.ssh_tunnel_app.aud]
+          aud_tag   = [cloudflare_access_application.ssh_tunnel_app.aud]
         }
       }
     }
