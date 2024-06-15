@@ -1,15 +1,17 @@
-# Update dependencies
+# .github/dependabot.yml
 
 version: 2
 updates:
-
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: "daily"
-    time: "07:00"
-  labels:
-  - "dependencies"
-  - "automerge"
-  reviewers:
-  - "Nserbin"
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "07:00"
+    labels:
+      - "dependencies"
+      - "terraform"
+      - "automerge"
+    commit-message:
+      prefix: "chore(deps): update Terraform providers"
+    reviewers:
+      - "Nserbin"
