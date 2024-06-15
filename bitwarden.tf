@@ -24,3 +24,14 @@ resource "cloudflare_access_policy" "bitwarden_policy_bypass" {
     everyone = true
   }
 }
+
+## Record for Bitwarden
+resource "cloudflare_record" "bitwarden_record" {
+  zone_id = cloudflare_zone.nserbin_website_zone.id
+  name    = var.bitwarden["prefix"]
+  value   = var.raspberry_pi_tunnel["record"]
+  type    = var.dns_records["type"]
+  ttl     = var.dns_records["ttl"]
+  proxied = var.dns_records["proxied"]
+  comment = var.raspberry_pi_tunnel["comment"]
+}

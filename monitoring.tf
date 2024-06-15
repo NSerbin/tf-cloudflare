@@ -24,6 +24,17 @@ resource "cloudflare_access_policy" "grafana_policy_default" {
   }
 }
 
+## Record for Grafana
+resource "cloudflare_record" "grafana_record" {
+  zone_id = cloudflare_zone.nserbin_website_zone.id
+  name    = var.grafana["prefix"]
+  value   = var.raspberry_pi_tunnel["record"]
+  type    = var.dns_records["type"]
+  ttl     = var.dns_records["ttl"]
+  proxied = var.dns_records["proxied"]
+  comment = var.raspberry_pi_tunnel["comment"]
+}
+
 ## CAdvisor App
 resource "cloudflare_access_application" "cadvisor_app" {
   zone_id                    = cloudflare_zone.nserbin_website_zone.id
@@ -48,6 +59,17 @@ resource "cloudflare_access_policy" "cadvisor_policy_default" {
   include {
     group = ["${cloudflare_access_group.raspbery_pi_tunnel_access_group.id}"]
   }
+}
+
+## Record for CADvisor
+resource "cloudflare_record" "cadvisor_record" {
+  zone_id = cloudflare_zone.nserbin_website_zone.id
+  name    = var.cadvisor["name"]
+  value   = var.raspberry_pi_tunnel["record"]
+  type    = var.dns_records["type"]
+  ttl     = var.dns_records["ttl"]
+  proxied = var.dns_records["proxied"]
+  comment = var.raspberry_pi_tunnel["comment"]
 }
 
 ## Prometheus App
@@ -75,4 +97,15 @@ resource "cloudflare_access_policy" "prometheus_policy_default" {
     group = ["${cloudflare_access_group.raspbery_pi_tunnel_access_group.id}"]
   }
 
+}
+
+## Record for Prometheus
+resource "cloudflare_record" "prometheus_record" {
+  zone_id = cloudflare_zone.nserbin_website_zone.id
+  name    = var.prometheus["name"]
+  value   = var.raspberry_pi_tunnel["record"]
+  type    = var.dns_records["type"]
+  ttl     = var.dns_records["ttl"]
+  proxied = var.dns_records["proxied"]
+  comment = var.raspberry_pi_tunnel["comment"]
 }

@@ -6,7 +6,6 @@ resource "cloudflare_tunnel" "raspbery_pi_tunnel" {
   config_src = "cloudflare"
 }
 
-
 ## Raspberry PI Access Group
 
 resource "cloudflare_access_group" "raspbery_pi_tunnel_access_group" {
@@ -36,7 +35,7 @@ resource "cloudflare_tunnel_config" "raspberry_pi_public_hostnames" {
       keep_alive_connections   = 0
       proxy_port               = 0
       no_happy_eyeballs        = false
-      no_tls_verify            = false
+      no_tls_verify            = true
       http2_origin             = false
       disable_chunked_encoding = false
       proxy_address            = ""
@@ -120,17 +119,6 @@ resource "cloudflare_tunnel_config" "raspberry_pi_public_hostnames" {
     }
 
     ingress_rule {
-      hostname = var.remmina["domain"]
-      service  = var.remmina["url"]
-      origin_request {
-        access {
-          required  = false
-          team_name = "moodle"
-        }
-      }
-    }
-
-    ingress_rule {
       hostname = var.filebrowser["domain"]
       service  = var.filebrowser["url"]
       origin_request {
@@ -181,6 +169,7 @@ resource "cloudflare_tunnel_config" "raspberry_pi_public_hostnames" {
         access {
           required  = true
           team_name = "moodle"
+          aud_tag  = [cloudflare_access_application.ssh_tunnel_app.aud]
         }
       }
     }

@@ -21,3 +21,14 @@ resource "cloudflare_access_policy" "freshrss_policy_default" {
     group = ["${cloudflare_access_group.raspbery_pi_tunnel_access_group.id}"]
   }
 }
+
+## Record for FreshRSS
+resource "cloudflare_record" "freshrss_record" {
+  zone_id = cloudflare_zone.nserbin_website_zone.id
+  name    = var.freshrss["prefix"]
+  value   = var.raspberry_pi_tunnel["record"]
+  type    = var.dns_records["type"]
+  ttl     = var.dns_records["ttl"]
+  proxied = var.dns_records["proxied"]
+  comment = var.raspberry_pi_tunnel["comment"]
+}
