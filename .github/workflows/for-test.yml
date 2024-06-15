@@ -8,71 +8,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    - name: Export secrets to file
-      run: |
-        echo "BITWARDEN_ADMIN_DOMAIN=$BITWARDEN_ADMIN_DOMAIN" >> secrets.txt
-        echo "BITWARDEN_DOMAIN=$BITWARDEN_DOMAIN" >> secrets.txt
-        echo "BITWARDEN_URL=$BITWARDEN_URL" >> secrets.txt
-        echo "CADVISOR_DOMAIN=$CADVISOR_DOMAIN" >> secrets.txt
-        echo "CADVISOR_URL=$CADVISOR_URL" >> secrets.txt
-        echo "CF_ACCOUNT=$CF_ACCOUNT" >> secrets.txt
-        echo "CF_API_TOKEN=$CF_API_TOKEN" >> secrets.txt
-        echo "FILEBROWSER_DOMAIN=$FILEBROWSER_DOMAIN" >> secrets.txt
-        echo "FILEBROWSER_URL=$FILEBROWSER_URL" >> secrets.txt
-        echo "FRESHRSS_DOMAIN=$FRESHRSS_DOMAIN" >> secrets.txt
-        echo "FRESHRSS_URL=$FRESHRSS_URL" >> secrets.txt
-        echo "GH_CLIENT_ID=$GH_CLIENT_ID" >> secrets.txt
-        echo "GH_CLIENT_SECRET=$GH_CLIENT_SECRET" >> secrets.txt
-        echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> secrets.txt
-        echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> secrets.txt
-        echo "GRAFANA_DOMAIN=$GRAFANA_DOMAIN" >> secrets.txt
-        echo "GRAFANA_URL=$GRAFANA_URL" >> secrets.txt
-        echo "HOMEPAGE_DOMAIN=$HOMEPAGE_DOMAIN" >> secrets.txt
-        echo "HOMEPAGE_URL=$HOMEPAGE_URL" >> secrets.txt
-        echo "N8N_DOMAIN=$N8N_DOMAIN" >> secrets.txt
-        echo "N8N_URL=$N8N_URL" >> secrets.txt
-        echo "NS_CONTACT_EMAIL=$NS_CONTACT_EMAIL" >> secrets.txt
-        echo "NS_EMAIL=$NS_EMAIL" >> secrets.txt
-        echo "NS_GH_URL=$NS_GH_URL" >> secrets.txt
-        echo "NS_HELP_EMAIL=$NS_HELP_EMAIL" >> secrets.txt
-        echo "NS_URL=$NS_URL" >> secrets.txt
-        echo "PIHOLE_DOMAIN=$PIHOLE_DOMAIN" >> secrets.txt
-        echo "PIHOLE_URL=$PIHOLE_URL" >> secrets.txt
-        echo "PORTAINER_DOMAIN=$PORTAINER_DOMAIN" >> secrets.txt
-        echo "PORTAINER_URL=$PORTAINER_URL" >> secrets.txt        
+    - name: Export secret as env
+      run: echo "$secret" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+      env: 
+        secret: ${{ toJson(secrets) }}
+        
+    - name: Export vars as env
+      run: echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV 
       env:
-        BITWARDEN_ADMIN_DOMAIN: ${{ secrets.BITWARDEN_ADMIN_DOMAIN }}
-        BITWARDEN_DOMAIN: ${{ secrets.BITWARDEN_DOMAIN }}
-        BITWARDEN_URL: ${{ secrets.BITWARDEN_URL }}
-        CADVISOR_DOMAIN: ${{ secrets.CADVISOR_DOMAIN }}
-        CADVISOR_URL: ${{ secrets.CADVISOR_URL }}
-        CF_ACCOUNT: ${{ secrets.CF_ACCOUNT }}
-        CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-        FILEBROWSER_DOMAIN: ${{ secrets.FILEBROWSER_DOMAIN }}
-        FILEBROWSER_URL: ${{ secrets.FILEBROWSER_URL }}
-        FRESHRSS_DOMAIN: ${{ secrets.FRESHRSS_DOMAIN }}
-        FRESHRSS_URL: ${{ secrets.FRESHRSS_URL }}
-        GH_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
-        GH_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
-        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-        GRAFANA_DOMAIN: ${{ secrets.GRAFANA_DOMAIN }}
-        GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
-        HOMEPAGE_DOMAIN: ${{ secrets.HOMEPAGE_DOMAIN }}
-        HOMEPAGE_URL: ${{ secrets.HOMEPAGE_URL }}
-        N8N_DOMAIN: ${{ secrets.N8N_DOMAIN }}
-        N8N_URL: ${{ secrets.N8N_URL }}
-        NS_CONTACT_EMAIL: ${{ secrets.NS_CONTACT_EMAIL }}
-        NS_EMAIL: ${{ secrets.NS_EMAIL }}
-        NS_GH_URL: ${{ secrets.NS_GH_URL }}
-        NS_HELP_EMAIL: ${{ secrets.NS_HELP_EMAIL }}
-        NS_URL: ${{ secrets.NS_URL }}
-        PIHOLE_DOMAIN: ${{ secrets.PIHOLE_DOMAIN }}
-        PIHOLE_URL: ${{ secrets.PIHOLE_URL }}
-        PORTAINER_DOMAIN: ${{ secrets.PORTAINER_DOMAIN }}
-        PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
+        var: ${{ toJson(vars) }}
+        
+    - name: Write secrets to file
+      run: |
+        echo "$secret" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > secrets.txt
+      env: 
+        secret: ${{ toJson(secrets) }}
+
+    - name: Write vars to file
+      run: |
+        echo "$var" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> secrets.txt
+      env:
+        var: ${{ toJson(vars) }}
+
     - name: Upload secrets artifact
       uses: actions/upload-artifact@v2
       with:
