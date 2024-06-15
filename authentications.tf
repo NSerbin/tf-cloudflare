@@ -21,6 +21,7 @@ resource "cloudflare_access_identity_provider" "github_oauth" {
   }
 }
 
+
 ## One Time PIN Login Method
 resource "cloudflare_access_identity_provider" "pin_login" {
   account_id = var.accounts_settings["cloudflare_account"]
