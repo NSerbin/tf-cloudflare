@@ -141,3 +141,15 @@ variable "ssh" {
   type        = map(string)
   default     = {}
 }
+
+variable "backend" {
+  description = "Map containing all Backend configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "docuseal" {
+  description = "Map containing all docuseal configuration"
+  type        = map(string)
+  default     = {}
+}
