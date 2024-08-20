@@ -41,7 +41,7 @@ resource "cloudflare_access_policy" "n8n_policy_default" {
 resource "cloudflare_record" "n8n_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = var.n8n["name"]
-  value   = var.raspberry_pi_tunnel["record"]
+  content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]

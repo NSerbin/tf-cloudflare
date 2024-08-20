@@ -33,7 +33,7 @@ resource "cloudflare_access_ca_certificate" "ssh_tunnel_cert" {
 resource "cloudflare_record" "ssh_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = var.ssh["name"]
-  value   = var.raspberry_pi_tunnel["record"]
+  content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]

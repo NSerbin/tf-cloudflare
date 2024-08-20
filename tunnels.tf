@@ -175,6 +175,28 @@ resource "cloudflare_tunnel_config" "raspberry_pi_public_hostnames" {
     }
 
     ingress_rule {
+      hostname = var.backend["domain"]
+      service  = var.backend["url"]
+      origin_request {
+        access {
+          required  = false
+          team_name = "moodle"
+        }
+      }
+    }
+
+    ingress_rule {
+      hostname = var.docuseal["domain"]
+      service  = var.docuseal["url"]
+      origin_request {
+        access {
+          required  = false
+          team_name = "moodle"
+        }
+      }
+    }
+
+    ingress_rule {
       service = "http_status:404"
     }
   }

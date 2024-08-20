@@ -27,7 +27,7 @@ resource "cloudflare_access_policy" "backend_policy_bypass" {
 resource "cloudflare_record" "backend_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = var.backend["name"]
-  value   = var.raspberry_pi_tunnel["record"]
+  content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
