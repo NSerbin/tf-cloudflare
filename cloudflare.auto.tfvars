@@ -181,12 +181,12 @@ ssh = {
 
 backend = {
   name   = "tf-backend"
-  url    = "${BACKEND_URL}"  
+  url    = "${BACKEND_URL}"
   domain = "${BACKEND_DOMAIN}"
 }
 
 docuseal = {
-  name     = "docs"
-  url      = "${DOCUSEAL_URL}"
-  domain   = "${DOCUSEAL_DOMAIN}"
+  name   = "docs"
+  url    = "${DOCUSEAL_URL}"
+  domain = "${DOCUSEAL_DOMAIN}"
 }

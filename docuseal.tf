@@ -7,7 +7,7 @@ resource "cloudflare_access_application" "docuseal_app" {
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
   allowed_idps               = ["${cloudflare_access_identity_provider.google_sso.id}", "${cloudflare_access_identity_provider.github_oauth.id}"]
-#  logo_url                   = var.docuseal["logo_url"]
+  #  logo_url                   = var.docuseal["logo_url"]
 }
 
 resource "cloudflare_access_policy" "docuseal_policy_default" {
