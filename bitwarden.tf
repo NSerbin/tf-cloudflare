@@ -8,7 +8,7 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
   allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
-  policies                  = [cloudflare_zero_trust_access_policy.default_policy_bypass.id]
+  policies                   = [cloudflare_zero_trust_access_policy.default_policy_bypass.id]
   self_hosted_domains        = ["${var.bitwarden["admin_domain"]}", "${var.bitwarden["domain"]}"]
   logo_url                   = var.bitwarden["logo_url"]
 }
