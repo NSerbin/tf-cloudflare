@@ -1,5 +1,5 @@
 # ## Remmina App
-# resource "cloudflare_access_application" "remmina_app" {
+# resource "cloudflare_zero_trust_access_application" "remmina_app" {
 #   zone_id                    = cloudflare_zone.nserbin_website_zone.id
 #   name                       = var.remmina["name"]
 #   domain                     = var.remmina["domain"]
@@ -7,21 +7,9 @@
 #   session_duration           = var.raspberry_pi_tunnel["session_duration"]
 #   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
 #   http_only_cookie_attribute = true
-#   allowed_idps               = ["${cloudflare_access_identity_provider.google_sso.id}", "${cloudflare_access_identity_provider.github_oauth.id}"]
+#   allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+#   policies                  = [cloudflare_zero_trust_access_policy.default_policy_bypass.id]
 #   logo_url                   = var.remmina["logo_url"]
-# }
-
-# ## Remmina Policy
-# resource "cloudflare_access_policy" "remmina_policy_default" {
-#   application_id = cloudflare_access_application.remmina_app.id
-#   zone_id        = cloudflare_zone.nserbin_website_zone.id
-#   name           = "Default Policy"
-#   precedence     = "1"
-#   decision       = "allow"
-
-#   include {
-#     group = ["${cloudflare_access_group.raspbery_pi_tunnel_access_group.id}"]
-#   }
 # }
 
 ## Record for SSH

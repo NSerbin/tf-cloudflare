@@ -1,5 +1,5 @@
 ## Raspberry PI Tunnel
-resource "cloudflare_tunnel" "raspbery_pi_tunnel" {
+resource "cloudflare_zero_trust_tunnel_cloudflared" "raspbery_pi_tunnel" {
   account_id = var.accounts_settings["cloudflare_account"]
   name       = var.raspberry_pi_tunnel["name"]
   secret     = var.raspberry_pi_tunnel["secret"]
@@ -8,21 +8,21 @@ resource "cloudflare_tunnel" "raspbery_pi_tunnel" {
 
 ## Raspberry PI Access Group
 
-resource "cloudflare_access_group" "raspbery_pi_tunnel_access_group" {
+resource "cloudflare_zero_trust_access_group" "raspbery_pi_tunnel_access_group" {
   account_id = var.accounts_settings["cloudflare_account"]
   name       = "Admin group"
 
   include {
     email        = ["nicolas.serbin@gmail.com"]
-    login_method = ["${cloudflare_access_identity_provider.google_sso.id}", "${cloudflare_access_identity_provider.github_oauth.id}"]
+    login_method = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
     auth_method  = "mfa"
   }
 
 }
 
-resource "cloudflare_tunnel_config" "raspberry_pi_public_hostnames" {
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "raspberry_pi_public_hostnames" {
   account_id = var.accounts_settings["cloudflare_account"]
-  tunnel_id  = cloudflare_tunnel.raspbery_pi_tunnel.id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.raspbery_pi_tunnel.id
   config {
 
     warp_routing {
@@ -169,7 +169,7 @@ resource "cloudflare_tunnel_config" "raspberry_pi_public_hostnames" {
         access {
           required  = true
           team_name = "moodle"
-          aud_tag   = [cloudflare_access_application.ssh_tunnel_app.aud]
+          aud_tag   = [cloudflare_zero_trust_access_application.ssh_tunnel_app.aud]
         }
       }
     }
