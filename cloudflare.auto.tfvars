@@ -52,7 +52,7 @@ sendgrid = {
   proxied   = false
   comment   = "SendGrid Email"
   txt_name  = "_dmarc"
-  txt_value = "v=DMARC1; p=none;"
+  txt_value = "v=DMARC1; p=none; rua=mailto:3505bb84a2fe498cb6c86ecf8d5c1c9f@dmarc-reports.cloudflare.net;"
   txt_type  = "TXT"
 }
 
