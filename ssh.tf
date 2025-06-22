@@ -9,21 +9,45 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
   enable_binding_cookie      = false
   http_only_cookie_attribute = false
   allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
-  policies                   = [cloudflare_zero_trust_access_policy.default_policy_access_group.id]
+  policies = [
+    {
+      name       = "Default Policy"
+      id         = cloudflare_zero_trust_access_policy.default_policy_access_group.id
+      precedence = 1
+      decision   = "allow"
+      include = [{
+        group = {
+          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+        }
+      }]
+    }
+  ]
+  self_hosted_domains = [
+    "ssh-tunnel.nserbin.com"
+  ]
+  destinations = [
+    {
+      type = "public"
+      uri  = "ssh-tunnel.nserbin.com"
+    }
+  ]
 }
 
 resource "cloudflare_zero_trust_access_short_lived_certificate" "ssh_tunnel_cert" {
-  zone_id        = cloudflare_zone.nserbin_website_zone.id
-  application_id = cloudflare_zero_trust_access_application.ssh_tunnel_app.id
+  zone_id = cloudflare_zone.nserbin_website_zone.id
+  app_id  = cloudflare_zero_trust_access_application.ssh_tunnel_app.id
 }
 
 ## Record for SSH
-resource "cloudflare_record" "ssh_record" {
+resource "cloudflare_dns_record" "ssh_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.ssh["name"]
+  name    = "${var.ssh["name"]}.${var.nserbin_website["domain"]}"
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.raspberry_pi_tunnel["comment"]
+  settings = {
+    flatten_cname = false
+  }
 }

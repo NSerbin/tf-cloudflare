@@ -13,9 +13,9 @@
 # }
 
 ## Record for SSH
-# resource "cloudflare_record" "ssh_record" {
+# resource "cloudflare_dns_record" "ssh_record" {
 #   zone_id = cloudflare_zone.nserbin_website_zone.id
-#   name    = var.remmina["name"]
+#   name    = "${var.remmina["name"]}.${var.nserbin_website["domain"]}"
 #   value   = var.raspberry_pi_tunnel["record"]
 #   type    = var.dns_records["type"]
 #   ttl     = var.dns_records["ttl"]
