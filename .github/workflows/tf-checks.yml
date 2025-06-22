@@ -20,6 +20,7 @@ jobs:
     secrets: inherit
   tf_check:
     uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@new-way-to-deploy
+    needs: tf_init
     with:
       terraform_version: 1.12.2
     secrets: inherit
