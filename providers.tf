@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "pg" {
-    conn_str = "postgres://${{ secrets.TF_BACKEND_USER }}:${{ secrets.TF_BACKEND_PASS }}@localhost:5433/${{ secrets.TF_BACKEND_DB }}?sslmode=disable"    
+    conn_str = "postgres://${{ secrets.BACKEND_USER }}:${{ secrets.BACKEND_PASSWORD }}@localhost:5433/${{ secrets.BACKEND_DB }}?sslmode=disable"
   }
 }
 
