@@ -21,17 +21,20 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
       exclude = []
     }
   ]
-  self_hosted_domains      = ["${var.bitwarden["domain"]}", "${var.bitwarden["admin_domain"]}"]
+
   logo_url                 = var.bitwarden["logo_url"]
   options_preflight_bypass = false
+
+  self_hosted_domains = ["${var.bitwarden["domain"]}", "${var.bitwarden["admin_domain"]}"]
+
   destinations = [
     {
       type = "public"
-      uri  = "btw.nserbin.com"
+      uri  = "${var.bitwarden["domain"]}"
     },
     {
       type = "public"
-      uri  = "btw.nserbin.com/admin"
+      uri  = "${var.bitwarden["admin_domain"]}"
     },
   ]
 }

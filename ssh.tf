@@ -1,14 +1,17 @@
 ## SSH App
 resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
-  zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.ssh["name"]
-  domain                     = var.ssh["domain"]
-  type                       = var.ssh["type"]
-  session_duration           = var.raspberry_pi_tunnel["session_duration"]
-  auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
-  enable_binding_cookie      = false
-  http_only_cookie_attribute = false
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  zone_id                      = cloudflare_zone.nserbin_website_zone.id
+  name                         = var.ssh["name"]
+  domain                       = var.ssh["domain"]
+  type                         = var.ssh["type"]
+  session_duration             = var.raspberry_pi_tunnel["session_duration"]
+  auto_redirect_to_identity    = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
+  enable_binding_cookie        = false
+  http_only_cookie_attribute   = false
+  allowed_idps                 = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  options_preflight_bypass     = false
+  skip_app_launcher_login_page = false
+  path_cookie_attribute        = false
   policies = [
     {
       name       = "Default Policy"
@@ -22,9 +25,9 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
       }]
     }
   ]
-  self_hosted_domains = [
-    "ssh-tunnel.nserbin.com"
-  ]
+
+  self_hosted_domains = ["ssh-tunnel.nserbin.com"]
+
   destinations = [
     {
       type = "public"

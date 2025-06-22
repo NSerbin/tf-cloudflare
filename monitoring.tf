@@ -1,13 +1,16 @@
 ## Grafana App
 resource "cloudflare_zero_trust_access_application" "grafana_app" {
-  zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.grafana["name"]
-  domain                     = var.grafana["domain"]
-  type                       = var.raspberry_pi_tunnel["type"]
-  session_duration           = var.raspberry_pi_tunnel["session_duration"]
-  auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
-  http_only_cookie_attribute = true
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  zone_id                      = cloudflare_zone.nserbin_website_zone.id
+  name                         = var.grafana["name"]
+  domain                       = var.grafana["domain"]
+  type                         = var.raspberry_pi_tunnel["type"]
+  session_duration             = var.raspberry_pi_tunnel["session_duration"]
+  auto_redirect_to_identity    = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
+  http_only_cookie_attribute   = true
+  allowed_idps                 = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  options_preflight_bypass     = false
+  skip_app_launcher_login_page = false
+  path_cookie_attribute        = false
   policies = [
     {
       name       = "Default Policy"
@@ -21,9 +24,9 @@ resource "cloudflare_zero_trust_access_application" "grafana_app" {
       }]
     }
   ]
-  self_hosted_domains = [
-    "monitor.nserbin.com"
-  ]
+
+  self_hosted_domains = ["monitor.nserbin.com"]
+
   destinations = [
     {
       type = "public"
@@ -46,14 +49,17 @@ resource "cloudflare_dns_record" "grafana_record" {
 
 ## CAdvisor App
 resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
-  zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.cadvisor["name"]
-  domain                     = var.cadvisor["domain"]
-  type                       = var.raspberry_pi_tunnel["type"]
-  session_duration           = var.raspberry_pi_tunnel["session_duration"]
-  auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
-  http_only_cookie_attribute = true
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  zone_id                      = cloudflare_zone.nserbin_website_zone.id
+  name                         = var.cadvisor["name"]
+  domain                       = var.cadvisor["domain"]
+  type                         = var.raspberry_pi_tunnel["type"]
+  session_duration             = var.raspberry_pi_tunnel["session_duration"]
+  auto_redirect_to_identity    = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
+  http_only_cookie_attribute   = true
+  allowed_idps                 = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  options_preflight_bypass     = false
+  skip_app_launcher_login_page = false
+  path_cookie_attribute        = false
   policies = [
     {
       name       = "Default Policy"
@@ -67,9 +73,9 @@ resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
       }]
     }
   ]
-  self_hosted_domains = [
-    "cadvisor.nserbin.com"
-  ]
+
+  self_hosted_domains = ["cadvisor.nserbin.com"]
+
   destinations = [
     {
       type = "public"
@@ -92,14 +98,17 @@ resource "cloudflare_dns_record" "cadvisor_record" {
 
 ## Prometheus App
 resource "cloudflare_zero_trust_access_application" "prometheus_app" {
-  zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.prometheus["name"]
-  domain                     = var.prometheus["domain"]
-  type                       = var.raspberry_pi_tunnel["type"]
-  session_duration           = var.raspberry_pi_tunnel["session_duration"]
-  auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
-  http_only_cookie_attribute = true
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  zone_id                      = cloudflare_zone.nserbin_website_zone.id
+  name                         = var.prometheus["name"]
+  domain                       = var.prometheus["domain"]
+  type                         = var.raspberry_pi_tunnel["type"]
+  session_duration             = var.raspberry_pi_tunnel["session_duration"]
+  auto_redirect_to_identity    = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
+  http_only_cookie_attribute   = true
+  allowed_idps                 = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  options_preflight_bypass     = false
+  skip_app_launcher_login_page = false
+  path_cookie_attribute        = false
   policies = [
     {
       name       = "Default Policy"
@@ -113,9 +122,9 @@ resource "cloudflare_zero_trust_access_application" "prometheus_app" {
       }]
     }
   ]
-  self_hosted_domains = [
-    "prometheus.nserbin.com"
-  ]
+
+  self_hosted_domains = ["prometheus.nserbin.com"]
+
   destinations = [
     {
       type = "public"
