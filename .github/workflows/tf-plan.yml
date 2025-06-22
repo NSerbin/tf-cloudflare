@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - test
+      - new-test
     tags:
     - "*"
 
@@ -16,5 +16,5 @@ jobs:
   tf_plan:
     uses: NSerbin/gh-pipelines/.github/workflows/tf-plan.yml@main
     with:
-      terraform_version: 1.8.3
+      terraform_version: 1.12.2
     secrets: inherit
