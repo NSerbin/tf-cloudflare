@@ -26,8 +26,6 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
     }
   ]
 
-  self_hosted_domains = ["ssh-tunnel.nserbin.com"]
-
   destinations = [
     {
       type = "public"

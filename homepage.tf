@@ -24,8 +24,6 @@ resource "cloudflare_zero_trust_access_application" "homepage_app" {
     }
   ]
 
-  self_hosted_domains = ["home.nserbin.com"]
-
   destinations = [
     {
       type = "public"

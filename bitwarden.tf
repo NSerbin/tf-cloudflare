@@ -25,8 +25,6 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
   logo_url                 = var.bitwarden["logo_url"]
   options_preflight_bypass = false
 
-  self_hosted_domains = ["${var.bitwarden["domain"]}", "${var.bitwarden["admin_domain"]}"]
-
   destinations = [
     {
       type = "public"

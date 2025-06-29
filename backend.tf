@@ -20,8 +20,6 @@ resource "cloudflare_zero_trust_access_application" "backend_app" {
     }
   ]
 
-  self_hosted_domains = ["tf-backend.nserbin.com"]
-
   destinations = [
     {
       type = "public"

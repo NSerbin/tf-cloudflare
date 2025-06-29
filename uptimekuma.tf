@@ -25,8 +25,6 @@ resource "cloudflare_zero_trust_access_application" "uptimekuma_app" {
     }
   ]
 
-  self_hosted_domains = ["status.nserbin.com"]
-
   destinations = [
     {
       type = "public"

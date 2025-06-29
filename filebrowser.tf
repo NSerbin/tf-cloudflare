@@ -25,8 +25,6 @@ resource "cloudflare_zero_trust_access_application" "filebrowser_app" {
     }
   ]
 
-  self_hosted_domains = ["vault.nserbin.com"]
-
   destinations = [
     {
       type = "public"

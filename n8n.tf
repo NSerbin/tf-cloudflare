@@ -25,8 +25,6 @@ resource "cloudflare_zero_trust_access_application" "n8n_app" {
     }
   ]
 
-  self_hosted_domains = ["n8n.nserbin.com"]
-
   destinations = [
     {
       type = "public"

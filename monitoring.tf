@@ -25,8 +25,6 @@ resource "cloudflare_zero_trust_access_application" "grafana_app" {
     }
   ]
 
-  self_hosted_domains = ["monitor.nserbin.com"]
-
   destinations = [
     {
       type = "public"
@@ -74,8 +72,6 @@ resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
     }
   ]
 
-  self_hosted_domains = ["cadvisor.nserbin.com"]
-
   destinations = [
     {
       type = "public"
@@ -122,8 +118,6 @@ resource "cloudflare_zero_trust_access_application" "prometheus_app" {
       }]
     }
   ]
-
-  self_hosted_domains = ["prometheus.nserbin.com"]
 
   destinations = [
     {

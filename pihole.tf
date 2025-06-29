@@ -25,8 +25,6 @@ resource "cloudflare_zero_trust_access_application" "pihole_app" {
     }
   ]
 
-  self_hosted_domains = ["pihole.nserbin.com", "pihole.nserbin.com/admin"]
-
   destinations = [
     {
       type = "public"

@@ -25,8 +25,6 @@ resource "cloudflare_zero_trust_access_application" "portainer_app" {
     }
   ]
 
-  self_hosted_domains = ["portainer.nserbin.com"]
-
   destinations = [
     {
       type = "public"

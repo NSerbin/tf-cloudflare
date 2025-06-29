@@ -24,8 +24,6 @@ resource "cloudflare_zero_trust_access_application" "freshrss_app" {
     }
   ]
 
-  self_hosted_domains = ["rss.nserbin.com"]
-
   destinations = [
     {
       type = "public"

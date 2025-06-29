@@ -25,8 +25,6 @@ resource "cloudflare_zero_trust_access_application" "docuseal_app" {
     }
   ]
 
-  self_hosted_domains = ["docs.nserbin.com"]
-
   destinations = [
     {
       type = "public"
