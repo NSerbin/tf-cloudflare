@@ -10,7 +10,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared" "raspbery_pi_tunnel" {
 
 resource "cloudflare_zero_trust_access_group" "raspbery_pi_tunnel_access_group" {
   #account_id = var.accounts_settings["cloudflare_account"]
-  zone_id = cloudflare_zone.nserbin_website_zone.idz
+  zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = "Admin group"
 
   include = [

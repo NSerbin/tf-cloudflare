@@ -17,7 +17,6 @@ jobs:
     uses: NSerbin/gh-pipelines/.github/workflows/tf-init.yml@new-way-to-deploy
     with:
       terraform_version: 1.12.2
-      working-directory: '.'
     secrets: inherit
   tf_check:
     uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@new-way-to-deploy
