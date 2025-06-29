@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - test
+      - new-test
     tags:
     - "*"
 
@@ -14,7 +14,8 @@ permissions:
 
 jobs:
   tf_plan:
-    uses: NSerbin/gh-pipelines/.github/workflows/tf-plan.yml@main
+    uses: NSerbin/gh-pipelines/.github/workflows/tf-plan.yml@new-way-to-deploy
+    needs: tf_init    
     with:
       terraform_version: 1.12.2
     secrets: inherit
