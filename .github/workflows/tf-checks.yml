@@ -30,4 +30,5 @@ jobs:
     with:
       tflint-version: "v0.58.0"
       language: terraform
-    secrets: inherit  
+      linter: true
+    secrets: inherit
