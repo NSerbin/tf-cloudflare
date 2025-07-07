@@ -31,7 +31,7 @@ resource "cloudflare_zero_trust_access_application" "backend_app" {
 ## Record for Backend
 resource "cloudflare_dns_record" "backend_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.backend["name"]}.var.nserbin_website["domain"]
+  name    = var.backend["name"].var.nserbin_website["domain"]
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
