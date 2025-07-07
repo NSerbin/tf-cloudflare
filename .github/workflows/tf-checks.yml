@@ -24,3 +24,10 @@ jobs:
     with:
       terraform_version: 1.12.2
     secrets: inherit
+  tf_lint:
+    uses: NSerbin/gh-pipelines/.github/workflows/linter.yml@new-way-to-deploy
+    needs: tf_check
+    with:
+      tflint-version: "v0.58.0"
+      language: terraform
+    secrets: inherit  
