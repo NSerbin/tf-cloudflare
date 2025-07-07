@@ -19,7 +19,7 @@ resource "cloudflare_zero_trust_access_application" "pihole_app" {
       decision   = "allow"
       include = [{
         group = {
-          id = "cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id
+          id = cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id
         }
       }]
     }
@@ -37,7 +37,7 @@ resource "cloudflare_zero_trust_access_application" "pihole_app" {
 ## Record for PiHole
 resource "cloudflare_dns_record" "pihole_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.pihole["name"]}.${var.nserbin_website["domain"]
+  name    = var.pihole["name"].var.nserbin_website["domain"]
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

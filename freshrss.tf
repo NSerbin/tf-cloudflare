@@ -6,7 +6,7 @@ resource "cloudflare_zero_trust_access_application" "freshrss_app" {
   session_duration             = var.raspberry_pi_tunnel["session_duration"]
   auto_redirect_to_identity    = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute   = true
-  allowed_idps                 = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id
+  allowed_idps                 = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
   options_preflight_bypass     = false
   skip_app_launcher_login_page = false
   path_cookie_attribute        = false

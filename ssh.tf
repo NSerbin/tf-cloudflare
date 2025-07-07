@@ -42,7 +42,7 @@ resource "cloudflare_zero_trust_access_short_lived_certificate" "ssh_tunnel_cert
 ## Record for SSH
 resource "cloudflare_dns_record" "ssh_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.ssh["name"]}.${var.nserbin_website["domain"]
+  name    = var.ssh["name"].var.nserbin_website["domain"]
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
