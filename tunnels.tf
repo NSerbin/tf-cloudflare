@@ -16,12 +16,12 @@ resource "cloudflare_zero_trust_access_group" "raspbery_pi_tunnel_access_group" 
   include = [
     {
       login_method = {
-        id = "${cloudflare_zero_trust_access_identity_provider.google_sso.id}"
+        id = cloudflare_zero_trust_access_identity_provider.google_sso.id
       }
     },
     {
       login_method = {
-        id = "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"
+        id = cloudflare_zero_trust_access_identity_provider.github_oauth.id
       }
     },
     {

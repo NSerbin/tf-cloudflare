@@ -5,8 +5,8 @@ resource "cloudflare_zero_trust_access_identity_provider" "google_sso" {
   name    = var.google_sso["name"]
   type    = var.google_sso["type"]
   config = {
-    client_id     = "${var.google_sso["client_id"]}"
-    client_secret = "${var.google_sso["client_secret"]}"
+    client_id     = var.google_sso["client_id"]
+    client_secret = var.google_sso["client_secret"]
   }
 
   lifecycle {
@@ -14,6 +14,7 @@ resource "cloudflare_zero_trust_access_identity_provider" "google_sso" {
       config["client_secret"]
     ]
   }
+
 }
 
 ## GitHub OAuth Login Method
@@ -22,8 +23,8 @@ resource "cloudflare_zero_trust_access_identity_provider" "github_oauth" {
   name    = var.github_sso["name"]
   type    = var.github_sso["type"]
   config = {
-    client_id     = "${var.github_sso["client_id"]}"
-    client_secret = "${var.github_sso["client_secret"]}"
+    client_id     = var.github_sso["client_id"]
+    client_secret = var.github_sso["client_secret"]
   }
 
   lifecycle {
@@ -31,6 +32,7 @@ resource "cloudflare_zero_trust_access_identity_provider" "github_oauth" {
       config["client_secret"]
     ]
   }
+
 }
 
 ## One Time PIN Login Method
@@ -50,6 +52,7 @@ resource "cloudflare_zero_trust_access_policy" "default_policy_bypass" {
   include = [{
     everyone = {}
   }]
+
 }
 
 ## Default Access Group Policy
@@ -60,7 +63,8 @@ resource "cloudflare_zero_trust_access_policy" "default_policy_access_group" {
 
   include = [{
     group = {
-      id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+      id = cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id
     }
   }]
+
 }

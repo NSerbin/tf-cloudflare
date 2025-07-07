@@ -28,11 +28,11 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.bitwarden["domain"]}"
+      uri  = var.bitwarden["domain"]
     },
     {
       type = "public"
-      uri  = "${var.bitwarden["admin_domain"]}"
+      uri  = var.bitwarden["admin_domain"]
     },
   ]
 }
@@ -40,7 +40,7 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
 ## Record for Bitwarden
 resource "cloudflare_dns_record" "bitwarden_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = "${var.bitwarden["prefix"]}.${var.nserbin_website["domain"]}"
+  name    = var.bitwarden["prefix"]}.${var.nserbin_website["domain"]
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

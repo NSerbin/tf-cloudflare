@@ -8,7 +8,7 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
   auto_redirect_to_identity    = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   enable_binding_cookie        = false
   http_only_cookie_attribute   = false
-  allowed_idps                 = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  allowed_idps                 = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
   options_preflight_bypass     = false
   skip_app_launcher_login_page = false
   path_cookie_attribute        = false
@@ -20,7 +20,7 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
       decision   = "allow"
       include = [{
         group = {
-          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+          id = cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id
         }
       }]
     }
@@ -42,7 +42,7 @@ resource "cloudflare_zero_trust_access_short_lived_certificate" "ssh_tunnel_cert
 ## Record for SSH
 resource "cloudflare_dns_record" "ssh_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = "${var.ssh["name"]}.${var.nserbin_website["domain"]}"
+  name    = var.ssh["name"]}.${var.nserbin_website["domain"]
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

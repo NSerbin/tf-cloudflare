@@ -6,7 +6,7 @@ resource "cloudflare_zero_trust_access_application" "homepage_app" {
   session_duration             = var.raspberry_pi_tunnel["session_duration"]
   auto_redirect_to_identity    = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute   = true
-  allowed_idps                 = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  allowed_idps                 = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
   options_preflight_bypass     = false
   skip_app_launcher_login_page = false
   path_cookie_attribute        = false
@@ -18,7 +18,7 @@ resource "cloudflare_zero_trust_access_application" "homepage_app" {
       decision   = "allow"
       include = [{
         group = {
-          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+          id = cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id
         }
       }]
     }
@@ -36,7 +36,7 @@ resource "cloudflare_zero_trust_access_application" "homepage_app" {
 ## Record for Homepage
 resource "cloudflare_dns_record" "homepage_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = "${var.homepage["name"]}.${var.nserbin_website["domain"]}"
+  name    = var.homepage["name"]}.${var.nserbin_website["domain"]
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
