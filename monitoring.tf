@@ -37,7 +37,7 @@ resource "cloudflare_zero_trust_access_application" "grafana_app" {
 ## Record for Grafana
 resource "cloudflare_dns_record" "grafana_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.grafana["prefix"].var.nserbin_website["domain"]
+  name    = join(".", [var.grafana["prefix"], var.nserbin_website["domain"]])
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
@@ -84,7 +84,7 @@ resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
 ## Record for CADvisor
 resource "cloudflare_dns_record" "cadvisor_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.cadvisor["name"].var.nserbin_website["domain"]
+  name    = join(".", [var.cadvisor["name"], var.nserbin_website["domain"]])
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
@@ -132,7 +132,7 @@ resource "cloudflare_zero_trust_access_application" "prometheus_app" {
 ## Record for Prometheus
 resource "cloudflare_dns_record" "prometheus_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.prometheus["name"].var.nserbin_website["domain"]
+  name    = join(".", [var.prometheus["name"], var.nserbin_website["domain"]])
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

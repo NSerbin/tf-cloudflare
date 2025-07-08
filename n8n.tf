@@ -37,7 +37,7 @@ resource "cloudflare_zero_trust_access_application" "n8n_app" {
 ## Record for n8n
 resource "cloudflare_dns_record" "n8n_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.n8n["name"].var.nserbin_website["domain"]
+  name    = join(".", [var.n8n["name"], var.nserbin_website["domain"]])
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

@@ -37,7 +37,7 @@ resource "cloudflare_zero_trust_access_application" "uptimekuma_app" {
 ## Record for UptimeKuma
 resource "cloudflare_dns_record" "uptimekuma_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.uptimekuma["name"].var.nserbin_website["domain"]
+  name    = join(".", [ var.uptimekuma["name"], var.nserbin_website["domain"] ])
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

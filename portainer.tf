@@ -37,7 +37,7 @@ resource "cloudflare_zero_trust_access_application" "portainer_app" {
 ## Record for Portainer
 resource "cloudflare_dns_record" "portainer_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.portainer["name"].var.nserbin_website["domain"]
+  name    = join(".", [var.portainer["name"], var.nserbin_website["domain"]])
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
