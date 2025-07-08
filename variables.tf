@@ -106,12 +106,6 @@ variable "filebrowser" {
   default     = {}
 }
 
-variable "remmina" {
-  description = "Map containing all FileBrowser App configuration"
-  type        = map(string)
-  default     = {}
-}
-
 variable "uptimekuma" {
   description = "Map containing all Uptime Kuma App configuration"
   type        = map(string)

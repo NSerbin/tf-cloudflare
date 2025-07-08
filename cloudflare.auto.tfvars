@@ -135,13 +135,6 @@ filebrowser = {
   logo_url = "${env:FILEBROWSER_LOGO_URL}"
 }
 
-remmina = {
-  name     = "Remmina SSH"
-  url      = "${env:REMMINA_URL}"
-  domain   = "${env:REMMINA_DOMAIN}"
-  logo_url = "${env:REMMINA_LOGO_URL}"
-}
-
 uptimekuma = {
   name     = "status"
   url      = "${env:UPTIMEKUMA_URL}"
