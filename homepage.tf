@@ -26,7 +26,7 @@ resource "cloudflare_zero_trust_access_application" "homepage_app" {
   destinations = [
     {
       type = "public"
-      uri  = var.homepage["domain"]
+      uri  = "${var.homepage["domain"]}"
     }
   ]
   logo_url = var.homepage["logo_url"]

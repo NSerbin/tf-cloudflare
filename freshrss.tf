@@ -1,7 +1,7 @@
-resource "cloudflare_zero_trust_access_application" "homepage_app" {
+resource "cloudflare_zero_trust_access_application" "freshrss_app" {
   zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.homepage["name"]
-  domain                     = var.homepage["domain"]
+  name                       = var.freshrss["name"]
+  domain                     = var.freshrss["domain"]
   type                       = var.raspberry_pi_tunnel["type"]
   session_duration           = var.raspberry_pi_tunnel["session_duration"]
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
@@ -26,16 +26,16 @@ resource "cloudflare_zero_trust_access_application" "homepage_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.homepage["domain"]}"
+      uri  = "${var.freshrss["domain"]}"
     }
   ]
-  logo_url = var.homepage["logo_url"]
+  logo_url = var.freshrss["logo_url"]
 }
 
-## Record for Homepage
-resource "cloudflare_dns_record" "homepage_record" {
+## Record for FreshRSS
+resource "cloudflare_dns_record" "freshrss_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = "${var.homepage["name"]}.${var.nserbin_website["domain"]}"
+  name    = "${var.freshrss["prefix"]}.${var.nserbin_website["domain"]}"
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
