@@ -29,38 +29,20 @@ raspberry_pi_tunnel = {
   comment                   = "Raspberry PI Tunnel"
 }
 
-sendgrid_em = {
-  name_1 = "${env:SENDGRID_EM_NAME_1}"
-  value  = "${env:SENDGRID_EM_VALUE}"
-  name_2 = "${env:SENDGRID_EM_NAME_2}"
-  name_3 = "${env:SENDGRID_EM_NAME_3}"
-  name_4 = "${env:SENDGRID_EM_NAME_4}"
+mailersend = {
+  proxied     = false
+  comment     = "${env:MAILSENDER_COMMENT}"
+  txt_name    = "_dmarc"
+  txt_value   = "${env:MAILSENDER_TXT_VALUE}"
+  txt_type    = "TXT"
+  spf_value   = "${env:MAILSENDER_SPF_VALUE}"
+  return_name = "${env:MAILSENDER_RETURN_NAME}"
+  return_vale = "${env:MAILSENDER_RETURN_VALUE}"
 }
 
-sendgrid_url = {
-  name_1 = "${env:SENDGRID_URL_NAME_1}"
-  name_2 = "${env:SENDGRID_URL_NAME_2}"
-  name_3 = "${env:SENDGRID_URL_NAME_3}"
-  name_4 = "${env:SENDGRID_URL_NAME_4}"
-  name_5 = "${env:SENDGRID_URL_NAME_5}"
-  name_6 = "${env:SENDGRID_URL_NAME_6}"
-}
-
-sendgrid = {
-  name      = "${env:SENDGRID_NAME}"
-  value     = "sendgrid.net"
-  proxied   = false
-  comment   = "SendGrid Email"
-  txt_name  = "_dmarc"
-  txt_value = "v=DMARC1; p=none; rua=mailto:3505bb84a2fe498cb6c86ecf8d5c1c9f@dmarc-reports.cloudflare.net;"
-  txt_type  = "TXT"
-}
-
-sendgrid_domainkey = {
-  name_1  = "${env:SENDGRID_DOMAINKEY_NAME_1}"
-  name_2  = "${env:SENDGRID_DOMAINKEY_NAME_2}"
-  value_1 = "${env:SENDGRID_DOMAINKEY_VALUE_1}"
-  value_2 = "${env:SENDGRID_DOMAINKEY_VALUE_2}"
+mailersend_domainkey = {
+  name_1  = "${env:MAILSENDER_DOMAINKEY_NAME}"
+  value_1 = "${env:MAILSENDER_DOMAINKEY_VALUE}"
 }
 
 dns_records = {

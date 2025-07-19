@@ -9,12 +9,6 @@ resource "cloudflare_zero_trust_access_identity_provider" "google_sso" {
     client_secret = var.google_sso["client_secret"]
   }
 
-  lifecycle {
-    ignore_changes = [
-      config["client_secret"]
-    ]
-  }
-
 }
 
 ## GitHub OAuth Login Method
@@ -25,12 +19,6 @@ resource "cloudflare_zero_trust_access_identity_provider" "github_oauth" {
   config = {
     client_id     = var.github_sso["client_id"]
     client_secret = var.github_sso["client_secret"]
-  }
-
-  lifecycle {
-    ignore_changes = [
-      config["client_secret"]
-    ]
   }
 
 }

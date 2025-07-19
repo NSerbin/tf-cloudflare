@@ -15,7 +15,6 @@ resource "cloudflare_email_routing_catch_all" "default_email_catch_all" {
   }]
 }
 
-
 resource "cloudflare_email_routing_address" "nserbin_gmail" {
   account_id = var.accounts_settings["cloudflare_account"]
   email      = var.nserbin_website["email"]
@@ -54,195 +53,56 @@ resource "cloudflare_email_routing_rule" "help_email_rule" {
     value = [var.nserbin_website["email"]]
   }]
 }
+## MailerSend
 
-### Sendgrid EM Records
+### SPF Records
 
-resource "cloudflare_dns_record" "sendgrid_em_1" {
+resource "cloudflare_dns_record" "mailersend_spf" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_em["name_1"], var.nserbin_website["domain"]])
-  content = var.sendgrid_em["value"]
-  type    = var.dns_records["type"]
+  name    = var.nserbin_website["domain"]
+  content = var.mailersend["spf_value"]
+  type    = var.mailersend["txt_type"]
   ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
+  proxied = var.mailersend["proxied"]
+  comment = var.mailersend["comment"]
 
-resource "cloudflare_dns_record" "sendgrid_em_2" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_em["name_2"], var.nserbin_website["domain"]])
-  content = var.sendgrid_em["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-resource "cloudflare_dns_record" "sendgrid_em_3" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_em["name_3"], var.nserbin_website["domain"]])
-  content = var.sendgrid_em["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-resource "cloudflare_dns_record" "sendgrid_em_4" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_em["name_4"], var.nserbin_website["domain"]])
-  content = var.sendgrid_em["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-## SendGrid Records
-
-resource "cloudflare_dns_record" "sendgrid" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid["name"], var.nserbin_website["domain"]])
-  content = var.sendgrid["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-### URL Records
-
-resource "cloudflare_dns_record" "sendgrid_url_1" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_url["name_1"], var.nserbin_website["domain"]])
-  content = var.sendgrid["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-resource "cloudflare_dns_record" "sendgrid_url_2" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_url["name_2"], var.nserbin_website["domain"]])
-  content = var.sendgrid["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-resource "cloudflare_dns_record" "sendgrid_url_3" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_url["name_3"], var.nserbin_website["domain"]])
-  content = var.sendgrid["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-resource "cloudflare_dns_record" "sendgrid_url_4" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_url["name_4"], var.nserbin_website["domain"]])
-  content = var.sendgrid["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-resource "cloudflare_dns_record" "sendgrid_url_5" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_url["name_5"], var.nserbin_website["domain"]])
-  content = var.sendgrid["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
-}
-
-resource "cloudflare_dns_record" "sendgrid_url_6" {
-  zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_url["name_6"], var.nserbin_website["domain"]])
-  content = var.sendgrid["value"]
-  type    = var.dns_records["type"]
-  ttl     = var.dns_records["ttl"]
-  proxied = var.dns_records["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
 }
 
 ### DomainKey Records
 
-resource "cloudflare_dns_record" "sendgrid_domainkey_1" {
+resource "cloudflare_dns_record" "mailersend_domainkey_1" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_domainkey["name_1"], var.nserbin_website["domain"]])
-  content = var.sendgrid_domainkey["value_1"]
+  name    = "${var.mailersend_domainkey["name_1"]}.${var.nserbin_website["domain"]}"
+  content = var.mailersend_domainkey["value_1"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
+  proxied = var.mailersend["proxied"]
+  comment = var.mailersend["comment"]
+
 }
 
-resource "cloudflare_dns_record" "sendgrid_domainkey_2" {
+### Return Path Records
+
+resource "cloudflare_dns_record" "mailersend_return_path" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid_domainkey["name_2"], var.nserbin_website["domain"]])
-  content = var.sendgrid_domainkey["value_2"]
+  name    = var.mailersend["return_name"]
+  content = var.mailersend["return_vale"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
+  proxied = var.mailersend["proxied"]
+  comment = var.mailersend["comment"]
+
 }
 
 ## TXT Records
 
-resource "cloudflare_dns_record" "sendgrid_txt" {
+resource "cloudflare_dns_record" "mailersend_txt" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.sendgrid["txt_name"], var.nserbin_website["domain"]])
-  content = var.sendgrid["txt_value"]
-  type    = var.sendgrid["txt_type"]
+  name    = "${var.mailersend["txt_name"]}.${var.nserbin_website["domain"]}"
+  content = var.mailersend["txt_value"]
+  type    = var.mailersend["txt_type"]
   ttl     = var.dns_records["ttl"]
-  proxied = var.sendgrid["proxied"]
-  comment = var.sendgrid["comment"]
-  settings = {
-    flatten_cname = false
-  }
+  proxied = var.mailersend["proxied"]
+  comment = var.mailersend["comment"]
+
 }

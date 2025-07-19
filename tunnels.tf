@@ -9,7 +9,6 @@ resource "cloudflare_zero_trust_tunnel_cloudflared" "raspbery_pi_tunnel" {
 ## Raspberry PI Access Group
 
 resource "cloudflare_zero_trust_access_group" "raspbery_pi_tunnel_access_group" {
-  #account_id = var.accounts_settings["cloudflare_account"]
   zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = "Admin group"
 
@@ -31,7 +30,7 @@ resource "cloudflare_zero_trust_access_group" "raspbery_pi_tunnel_access_group" 
     },
     {
       email = {
-        email = "nicolas.serbin@gmail.com",
+        email = "${var.nserbin_website["email"]}",
       }
     },
 

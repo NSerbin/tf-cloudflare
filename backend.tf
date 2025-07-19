@@ -11,7 +11,6 @@ resource "cloudflare_zero_trust_access_application" "backend_app" {
   policies = [
     {
       name       = "Bypass Policy"
-      id         = cloudflare_zero_trust_access_policy.default_policy_bypass.id
       precedence = 1
       decision   = "bypass"
       include = [{
@@ -23,7 +22,7 @@ resource "cloudflare_zero_trust_access_application" "backend_app" {
   destinations = [
     {
       type = "public"
-      uri  = "tf-backend.nserbin.com"
+      uri  = "${var.backend["domain"]}"
     }
   ]
 }
@@ -31,13 +30,11 @@ resource "cloudflare_zero_trust_access_application" "backend_app" {
 ## Record for Backend
 resource "cloudflare_dns_record" "backend_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = join(".", [var.backend["name"], var.nserbin_website["domain"]])
+  name    = "${var.backend["name"]}.${var.nserbin_website["domain"]}"
   content = var.raspberry_pi_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.raspberry_pi_tunnel["comment"]
-  settings = {
-    flatten_cname = false
-  }
+
 }
