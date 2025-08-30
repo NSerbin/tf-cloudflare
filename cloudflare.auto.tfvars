@@ -30,13 +30,13 @@ raspberry_pi_tunnel = {
 }
 
 mailersend = {
-  proxied     = false
-  comment     = "${MAILSENDER_COMMENT}"
-  txt_name    = "_dmarc"
-  txt_value   = "${MAILSENDER_TXT_VALUE}"
-  txt_type    = "TXT"
-  spf_value   = "${MAILSENDER_SPF_VALUE}"
-  return_name = "${MAILSENDER_RETURN_NAME}"
+  proxied      = false
+  comment      = "${MAILSENDER_COMMENT}"
+  txt_name     = "_dmarc"
+  txt_value    = "${MAILSENDER_TXT_VALUE}"
+  txt_type     = "TXT"
+  spf_value    = "${MAILSENDER_SPF_VALUE}"
+  return_name  = "${MAILSENDER_RETURN_NAME}"
   return_value = "${MAILSENDER_RETURN_VALUE}"
 }
 
