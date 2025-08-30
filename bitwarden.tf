@@ -27,11 +27,11 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.bitwarden["domain"]}"
+      uri  = var.bitwarden["domain"]
     },
     {
       type = "public"
-      uri  = "${var.bitwarden["admin_domain"]}"
+      uri  = var.bitwarden["admin_domain"]
     },
   ]
 }

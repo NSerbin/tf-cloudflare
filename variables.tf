@@ -29,7 +29,7 @@ variable "mailersend_domainkey" {
 }
 
 variable "mailersend" {
-  description = "Map containing all unified configuration for SendGrid"
+  description = "Map containing all unified configuration for Mailersend"
   type        = map(string)
   default     = {}
 }

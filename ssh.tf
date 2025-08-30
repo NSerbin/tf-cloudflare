@@ -8,7 +8,7 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   enable_binding_cookie      = false
   http_only_cookie_attribute = false
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  allowed_idps               = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
   options_preflight_bypass   = false
 
 
@@ -19,7 +19,7 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
       decision   = "allow"
       include = [{
         group = {
-          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
         }
       }]
     }
@@ -28,7 +28,7 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.ssh["domain"]}"
+      uri  = var.ssh["domain"]
     }
   ]
 }

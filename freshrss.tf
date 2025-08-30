@@ -6,7 +6,7 @@ resource "cloudflare_zero_trust_access_application" "freshrss_app" {
   session_duration           = var.raspberry_pi_tunnel["session_duration"]
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  allowed_idps               = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
   options_preflight_bypass   = false
   enable_binding_cookie      = true
 
@@ -17,7 +17,7 @@ resource "cloudflare_zero_trust_access_application" "freshrss_app" {
       decision   = "allow"
       include = [{
         group = {
-          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
         }
       }]
     }
@@ -26,7 +26,7 @@ resource "cloudflare_zero_trust_access_application" "freshrss_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.freshrss["domain"]}"
+      uri  = var.freshrss["domain"]
     }
   ]
   logo_url = var.freshrss["logo_url"]
