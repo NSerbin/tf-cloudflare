@@ -7,27 +7,27 @@ resource "cloudflare_zero_trust_access_application" "docuseal_app" {
   session_duration           = var.raspberry_pi_tunnel["session_duration"]
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  allowed_idps               = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
+  options_preflight_bypass   = false
+  enable_binding_cookie      = true
+
   policies = [
     {
       name       = "Default Policy"
-      id         = cloudflare_zero_trust_access_policy.default_policy_access_group.id
       decision   = "allow"
       precedence = 1
       include = [{
         group = {
-          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+          id = cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id
         }
       }]
     }
   ]
-  self_hosted_domains = [
-    "docs.nserbin.com"
-  ]
+
   destinations = [
     {
       type = "public"
-      uri  = "docs.nserbin.com"
+      uri  = "${var.docuseal["domain"]}"
     }
   ]
   #  logo_url                   = var.docuseal["logo_url"]
@@ -42,7 +42,5 @@ resource "cloudflare_dns_record" "docuseal_record" {
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.raspberry_pi_tunnel["comment"]
-  settings = {
-    flatten_cname = false
-  }
+
 }

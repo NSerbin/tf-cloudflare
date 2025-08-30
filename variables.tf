@@ -22,25 +22,13 @@ variable "raspberry_pi_tunnel" {
   default     = {}
 }
 
-variable "sendgrid_em" {
-  description = "Map containing all unified configuration for SendGrid EM"
+variable "mailersend_domainkey" {
+  description = "Map containing all unified configuration for Mailersend"
   type        = map(string)
   default     = {}
 }
 
-variable "sendgrid_url" {
-  description = "Map containing all unified configuration for SendGrid"
-  type        = map(string)
-  default     = {}
-}
-
-variable "sendgrid_domainkey" {
-  description = "Map containing all unified configuration for SendGrid"
-  type        = map(string)
-  default     = {}
-}
-
-variable "sendgrid" {
+variable "mailersend" {
   description = "Map containing all unified configuration for SendGrid"
   type        = map(string)
   default     = {}
@@ -101,12 +89,6 @@ variable "n8n" {
 }
 
 variable "filebrowser" {
-  description = "Map containing all FileBrowser App configuration"
-  type        = map(string)
-  default     = {}
-}
-
-variable "remmina" {
   description = "Map containing all FileBrowser App configuration"
   type        = map(string)
   default     = {}

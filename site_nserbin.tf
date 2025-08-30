@@ -8,9 +8,7 @@ resource "cloudflare_dns_record" "nserbin_website" {
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.nserbin_website["comment"]
-  settings = {
-    flatten_cname = false
-  }
+
 }
 
 resource "cloudflare_dns_record" "nserbin_website_www" {
@@ -21,7 +19,5 @@ resource "cloudflare_dns_record" "nserbin_website_www" {
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.nserbin_website["comment"]
-  settings = {
-    flatten_cname = false
-  }
+
 }

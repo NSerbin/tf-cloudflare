@@ -11,7 +11,6 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
   policies = [
     {
       name       = "Bypass Policy"
-      id         = cloudflare_zero_trust_access_policy.default_policy_bypass.id
       precedence = 1
       decision   = "bypass"
       include = [{
@@ -21,17 +20,18 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
       exclude = []
     }
   ]
-  self_hosted_domains      = ["${var.bitwarden["domain"]}", "${var.bitwarden["admin_domain"]}"]
+
   logo_url                 = var.bitwarden["logo_url"]
   options_preflight_bypass = false
+
   destinations = [
     {
       type = "public"
-      uri  = "btw.nserbin.com"
+      uri  = "${var.bitwarden["domain"]}"
     },
     {
       type = "public"
-      uri  = "btw.nserbin.com/admin"
+      uri  = "${var.bitwarden["admin_domain"]}"
     },
   ]
 }
@@ -45,7 +45,5 @@ resource "cloudflare_dns_record" "bitwarden_record" {
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.raspberry_pi_tunnel["comment"]
-  settings = {
-    flatten_cname = false
-  }
+
 }

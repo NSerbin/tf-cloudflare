@@ -1,27 +1,26 @@
 ## Raspberry PI Tunnel
 resource "cloudflare_zero_trust_tunnel_cloudflared" "raspbery_pi_tunnel" {
   account_id = var.accounts_settings["cloudflare_account"]
+
   name       = var.raspberry_pi_tunnel["name"]
-  #tunnel_secret = var.raspberry_pi_tunnel["secret"]
-  config_src = "cloudflare"
+  config_src = "local"
 }
 
 ## Raspberry PI Access Group
 
 resource "cloudflare_zero_trust_access_group" "raspbery_pi_tunnel_access_group" {
-  #account_id = var.accounts_settings["cloudflare_account"]
-  zone_id = "59d8508fe3545bf6712204472ebac030"
+  zone_id = cloudflare_zone.nserbin_website_zone.id
   name    = "Admin group"
 
   include = [
     {
       login_method = {
-        id = "${cloudflare_zero_trust_access_identity_provider.google_sso.id}"
+        id = cloudflare_zero_trust_access_identity_provider.google_sso.id
       }
     },
     {
       login_method = {
-        id = "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"
+        id = cloudflare_zero_trust_access_identity_provider.github_oauth.id
       }
     },
     {
@@ -31,7 +30,7 @@ resource "cloudflare_zero_trust_access_group" "raspbery_pi_tunnel_access_group" 
     },
     {
       email = {
-        email = "nicolas.serbin@gmail.com",
+        email = "${var.nserbin_website["email"]}",
       }
     },
 
@@ -39,79 +38,88 @@ resource "cloudflare_zero_trust_access_group" "raspbery_pi_tunnel_access_group" 
 }
 
 
-resource "cloudflare_zero_trust_tunnel_cloudflared_config" "raspberry_pi_public_hostnames" {
-  account_id = var.accounts_settings["cloudflare_account"]
-  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.raspbery_pi_tunnel.id
+locals {
+  default_origin_request = {
+    access = {
+      required  = false
+      team_name = "moodle"
+      aud_tag   = []
+    }
+    connect_timeout          = 30
+    keep_alive_connections   = 100
+    keep_alive_timeout       = 90
+    no_happy_eyeballs        = false
+    no_tls_verify            = false
+    disable_chunked_encoding = true
+    http2_origin             = true
+    http_host_header         = null
+    origin_server_name       = null
+    proxy_type               = null
+    tcp_keep_alive           = 30
+    tls_timeout              = 10
+  }
 
-  config = {
-    ingress = [
-      {
-        hostname = var.grafana["domain"]
-        service  = var.grafana["url"]
-      },
-      {
-        hostname = var.bitwarden["domain"]
-        service  = var.bitwarden["url"]
-      },
-      {
-        hostname = var.portainer["domain"]
-        service  = var.portainer["url"]
-      },
-      {
-        hostname = var.pihole["domain"]
-        service  = var.pihole["url"]
-      },
-      {
-        hostname = var.cadvisor["domain"]
-        service  = var.cadvisor["url"]
-      },
-      {
-        hostname = var.freshrss["domain"]
-        service  = var.freshrss["url"]
-      },
-      {
-        hostname = var.homepage["domain"]
-        service  = var.homepage["url"]
-      },
-      {
-        hostname = var.filebrowser["domain"]
-        service  = var.filebrowser["url"]
-      },
-      {
-        hostname = var.n8n["domain"]
-        service  = var.n8n["url"]
-      },
-      {
-        hostname = var.uptimekuma["domain"]
-        service  = var.uptimekuma["url"]
-      },
-      {
-        hostname = var.prometheus["domain"]
-        service  = var.prometheus["url"]
-      },
-      {
-        hostname = var.ssh["domain"]
-        service  = var.ssh["url"]
-        origin_request = {
+  ingress_services = [
+    var.grafana,
+    var.bitwarden,
+    var.portainer,
+    var.pihole,
+    var.cadvisor,
+    var.freshrss,
+    var.homepage,
+    var.filebrowser,
+    var.n8n,
+    var.uptimekuma,
+    var.prometheus,
+    merge(var.ssh, {
+      origin_request = merge(
+        local.default_origin_request,
+        {
           access = {
             required  = true
             team_name = "moodle"
             aud_tag   = [cloudflare_zero_trust_access_application.ssh_tunnel_app.aud]
           }
         }
-      },
-      {
-        hostname = var.backend["domain"]
-        service  = var.backend["url"]
-      },
-      {
-        hostname = var.docuseal["domain"]
-        service  = var.docuseal["url"]
-      },
-      {
-        service = "http_status:404"
-      }
-    ]
+      )
+    }),
+    var.backend,
+    var.docuseal
+  ]
+}
+
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "raspberry_pi_public_hostnames" {
+  account_id = var.accounts_settings["cloudflare_account"]
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.raspbery_pi_tunnel.id
+  source     = "cloudflare"
+
+  config = {
+    origin_request = {
+      connect_timeout          = 30
+      keep_alive_connections   = 0
+      proxy_port               = 0
+      no_happy_eyeballs        = false
+      no_tls_verify            = true
+      http2_origin             = false
+      disable_chunked_encoding = false
+      proxy_address            = ""
+    }
+
+    ingress = concat(
+      [
+        for svc in local.ingress_services : {
+          hostname       = svc["domain"]
+          service        = svc["url"]
+          origin_request = try(svc["origin_request"], local.default_origin_request)
+        }
+      ],
+      [
+        {
+          service = "http_status:404"
+        }
+      ]
+    )
   }
 }
+
 

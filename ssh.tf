@@ -9,10 +9,12 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
   enable_binding_cookie      = false
   http_only_cookie_attribute = false
   allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  options_preflight_bypass   = false
+
+
   policies = [
     {
       name       = "Default Policy"
-      id         = cloudflare_zero_trust_access_policy.default_policy_access_group.id
       precedence = 1
       decision   = "allow"
       include = [{
@@ -22,13 +24,11 @@ resource "cloudflare_zero_trust_access_application" "ssh_tunnel_app" {
       }]
     }
   ]
-  self_hosted_domains = [
-    "ssh-tunnel.nserbin.com"
-  ]
+
   destinations = [
     {
       type = "public"
-      uri  = "ssh-tunnel.nserbin.com"
+      uri  = "${var.ssh["domain"]}"
     }
   ]
 }
@@ -47,7 +47,5 @@ resource "cloudflare_dns_record" "ssh_record" {
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.raspberry_pi_tunnel["comment"]
-  settings = {
-    flatten_cname = false
-  }
+
 }

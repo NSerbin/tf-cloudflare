@@ -8,10 +8,12 @@ resource "cloudflare_zero_trust_access_application" "grafana_app" {
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
   allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  options_preflight_bypass   = false
+  enable_binding_cookie      = true
+
   policies = [
     {
       name       = "Default Policy"
-      id         = cloudflare_zero_trust_access_policy.default_policy_access_group.id
       precedence = 1
       decision   = "allow"
       include = [{
@@ -21,13 +23,11 @@ resource "cloudflare_zero_trust_access_application" "grafana_app" {
       }]
     }
   ]
-  self_hosted_domains = [
-    "monitor.nserbin.com"
-  ]
+
   destinations = [
     {
       type = "public"
-      uri  = "monitor.nserbin.com"
+      uri  = "${var.grafana["domain"]}"
     }
   ]
   logo_url = var.grafana["logo_url"]
@@ -54,10 +54,11 @@ resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
   allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  options_preflight_bypass   = false
+
   policies = [
     {
       name       = "Default Policy"
-      id         = cloudflare_zero_trust_access_policy.default_policy_access_group.id
       precedence = 1
       decision   = "allow"
       include = [{
@@ -67,13 +68,11 @@ resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
       }]
     }
   ]
-  self_hosted_domains = [
-    "cadvisor.nserbin.com"
-  ]
+
   destinations = [
     {
       type = "public"
-      uri  = "cadvisor.nserbin.com"
+      uri  = "${var.cadvisor["domain"]}"
     }
   ]
   logo_url = var.cadvisor["logo_url"]
@@ -100,10 +99,12 @@ resource "cloudflare_zero_trust_access_application" "prometheus_app" {
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
   allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  options_preflight_bypass   = false
+
+
   policies = [
     {
       name       = "Default Policy"
-      id         = cloudflare_zero_trust_access_policy.default_policy_access_group.id
       precedence = 1
       decision   = "allow"
       include = [{
@@ -113,13 +114,11 @@ resource "cloudflare_zero_trust_access_application" "prometheus_app" {
       }]
     }
   ]
-  self_hosted_domains = [
-    "prometheus.nserbin.com"
-  ]
+
   destinations = [
     {
       type = "public"
-      uri  = "prometheus.nserbin.com"
+      uri  = "${var.prometheus["domain"]}"
     }
   ]
   logo_url = var.prometheus["logo_url"]
@@ -135,7 +134,5 @@ resource "cloudflare_dns_record" "prometheus_record" {
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.raspberry_pi_tunnel["comment"]
-  settings = {
-    flatten_cname = false
-  }
+
 }
