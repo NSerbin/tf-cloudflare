@@ -6,6 +6,10 @@ terraform {
     }
   }
 
+  backend "pg" {
+    conn_str = "postgres://${BACKEND_USER}:${BACKEND_PASSWORD}@${BACKEND_URL}/${BACKEND_DB}?sslmode=disable"   
+  }
+
 }
 
 provider "cloudflare" {
