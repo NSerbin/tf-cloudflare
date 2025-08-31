@@ -18,7 +18,7 @@ resource "cloudflare_zero_trust_access_application" "docuseal_app" {
       precedence = 1
       include = [{
         group = {
-          id = cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id
+          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
         }
       }]
     }
@@ -27,7 +27,7 @@ resource "cloudflare_zero_trust_access_application" "docuseal_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.docuseal["domain"]}"
+      uri  = var.docuseal["domain"]
     }
   ]
   #  logo_url                   = var.docuseal["logo_url"]

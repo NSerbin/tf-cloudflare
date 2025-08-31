@@ -22,7 +22,7 @@ resource "cloudflare_zero_trust_access_application" "backend_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.backend["domain"]}"
+      uri  = var.backend["domain"]
     }
   ]
 }

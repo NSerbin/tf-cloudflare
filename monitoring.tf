@@ -7,7 +7,7 @@ resource "cloudflare_zero_trust_access_application" "grafana_app" {
   session_duration           = var.raspberry_pi_tunnel["session_duration"]
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  allowed_idps               = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
   options_preflight_bypass   = false
   enable_binding_cookie      = true
 
@@ -18,7 +18,7 @@ resource "cloudflare_zero_trust_access_application" "grafana_app" {
       decision   = "allow"
       include = [{
         group = {
-          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
         }
       }]
     }
@@ -27,7 +27,7 @@ resource "cloudflare_zero_trust_access_application" "grafana_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.grafana["domain"]}"
+      uri  = var.grafana["domain"]
     }
   ]
   logo_url = var.grafana["logo_url"]
@@ -53,7 +53,7 @@ resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
   session_duration           = var.raspberry_pi_tunnel["session_duration"]
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  allowed_idps               = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
   options_preflight_bypass   = false
 
   policies = [
@@ -63,7 +63,7 @@ resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
       decision   = "allow"
       include = [{
         group = {
-          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
         }
       }]
     }
@@ -72,7 +72,7 @@ resource "cloudflare_zero_trust_access_application" "cadvisor_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.cadvisor["domain"]}"
+      uri  = var.cadvisor["domain"]
     }
   ]
   logo_url = var.cadvisor["logo_url"]
@@ -98,7 +98,7 @@ resource "cloudflare_zero_trust_access_application" "prometheus_app" {
   session_duration           = var.raspberry_pi_tunnel["session_duration"]
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
-  allowed_idps               = ["${cloudflare_zero_trust_access_identity_provider.google_sso.id}", "${cloudflare_zero_trust_access_identity_provider.github_oauth.id}"]
+  allowed_idps               = [cloudflare_zero_trust_access_identity_provider.google_sso.id, cloudflare_zero_trust_access_identity_provider.github_oauth.id]
   options_preflight_bypass   = false
 
 
@@ -109,7 +109,7 @@ resource "cloudflare_zero_trust_access_application" "prometheus_app" {
       decision   = "allow"
       include = [{
         group = {
-          id = "${cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id}"
+          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
         }
       }]
     }
@@ -118,7 +118,7 @@ resource "cloudflare_zero_trust_access_application" "prometheus_app" {
   destinations = [
     {
       type = "public"
-      uri  = "${var.prometheus["domain"]}"
+      uri  = var.prometheus["domain"]
     }
   ]
   logo_url = var.prometheus["logo_url"]

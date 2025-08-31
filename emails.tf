@@ -94,8 +94,7 @@ resource "cloudflare_dns_record" "mailersend_return_path" {
 
 }
 
-
-## TXT Records
+### TXT Records
 
 resource "cloudflare_dns_record" "mailersend_txt" {
   zone_id = cloudflare_zone.nserbin_website_zone.id

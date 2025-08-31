@@ -51,7 +51,7 @@ resource "cloudflare_zero_trust_access_policy" "default_policy_access_group" {
 
   include = [{
     group = {
-      id = cloudflare_zero_trust_access_group.raspbery_pi_tunnel_access_group.id
+      id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
     }
   }]
 
