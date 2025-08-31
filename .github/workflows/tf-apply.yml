@@ -12,7 +12,13 @@ permissions:
   pull-requests: write
 
 jobs:
+  tf_plan:
+    uses: NSerbin/gh-pipelines/.github/workflows/tf-apply.yml@new-way-to-deploy
+    with:
+      terraform_version: 1.12.2
+    secrets: inherit
   tf_check:
+    needs: tf_plan
     uses: NSerbin/gh-pipelines/.github/workflows/tf-apply.yml@new-way-to-deploy
     with:
       terraform_version: 1.12.2
