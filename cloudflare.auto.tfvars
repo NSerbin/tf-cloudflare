@@ -158,6 +158,7 @@ backend = {
   name   = "tf-backend"
   url    = "${BACKEND_URL}"
   domain = "${BACKEND_DOMAIN}"
+  session_duration          = "30m"  
 }
 
 docuseal = {
