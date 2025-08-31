@@ -3,8 +3,7 @@ name: Checking the Plan of Terraform Code
 on:
   push:
     branches:
-      - main
-      - test
+      - "*"
     tags:
     - "*"
 
