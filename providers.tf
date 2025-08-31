@@ -5,7 +5,9 @@ terraform {
       version = "5.8.4"
     }
   }
-
+  backend "pg" {
+    conn_str = "postgres://localhost:5433/terraform_backend?sslmode=disable"   
+  }
 }
 
 provider "cloudflare" {
