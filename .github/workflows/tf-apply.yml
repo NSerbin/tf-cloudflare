@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   tf_check:
-    uses: NSerbin/gh-pipelines/.github/workflows/tf-apply.yml@main
+    uses: NSerbin/gh-pipelines/.github/workflows/tf-apply.yml@new-way-to-deploy
     with:
-      terraform_version: 1.8.3
+      terraform_version: 1.12.2
     secrets: inherit
