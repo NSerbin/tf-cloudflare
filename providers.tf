@@ -6,8 +6,6 @@ terraform {
     }
   }
 
-  backend "pg" {}
-
 }
 
 provider "cloudflare" {
