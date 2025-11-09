@@ -15,18 +15,17 @@ jobs:
   tf_init:
     uses: NSerbin/gh-pipelines/.github/workflows/tf-init.yml@new-way-to-deploy
     with:
-      terraform_version: 1.12.2
+      terraform_version: 1.13.5
     secrets: inherit
   tf_check:
     needs: tf_init  
     uses: NSerbin/gh-pipelines/.github/workflows/tf-checks.yml@new-way-to-deploy
     with:
-      terraform_version: 1.12.2
+      terraform_version: 1.13.5
     secrets: inherit
   tf_plan:
     needs: tf_check
     uses: NSerbin/gh-pipelines/.github/workflows/tf-plan.yml@new-way-to-deploy
     with:
-      terraform_version: 1.12.2
+      terraform_version: 1.13.5
     secrets: inherit
-
