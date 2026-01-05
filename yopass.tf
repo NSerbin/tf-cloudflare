@@ -1,7 +1,8 @@
-resource "cloudflare_zero_trust_access_application" "homepage_app" {
+## Yopass App
+resource "cloudflare_zero_trust_access_application" "yopass_app" {
   zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.homepage["name"]
-  domain                     = var.homepage["domain"]
+  name                       = var.yopass["name"]
+  domain                     = var.yopass["domain"]
   type                       = var.k3s_cluster_tunnel["type"]
   session_duration           = var.k3s_cluster_tunnel["session_duration"]
   auto_redirect_to_identity  = var.k3s_cluster_tunnel["auto_redirect_to_identity"]
@@ -12,30 +13,30 @@ resource "cloudflare_zero_trust_access_application" "homepage_app" {
 
   policies = [
     {
-      name       = "Default Policy"
+      name       = "Bypass Policy"
       precedence = 1
-      decision   = "allow"
+      decision   = "bypass"
       include = [{
-        group = {
-          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
-        }
+        everyone = {}
       }]
+      require = []
+      exclude = []
     }
   ]
 
   destinations = [
     {
       type = "public"
-      uri  = var.homepage["domain"]
+      uri  = var.yopass["domain"]
     }
   ]
-  logo_url = var.homepage["logo_url"]
+  #logo_url = var.yopass["logo_url"]
 }
 
-## Record for Homepage
-resource "cloudflare_dns_record" "homepage_record" {
+## Record for yopass
+resource "cloudflare_dns_record" "yopass_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.homepage["domain"]
+  name    = var.yopass["domain"]
   content = var.k3s_cluster_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

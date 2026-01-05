@@ -1,7 +1,8 @@
-resource "cloudflare_zero_trust_access_application" "homepage_app" {
+## Traefik App
+resource "cloudflare_zero_trust_access_application" "traefik_app" {
   zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.homepage["name"]
-  domain                     = var.homepage["domain"]
+  name                       = var.traefik["name"]
+  domain                     = var.traefik["domain"]
   type                       = var.k3s_cluster_tunnel["type"]
   session_duration           = var.k3s_cluster_tunnel["session_duration"]
   auto_redirect_to_identity  = var.k3s_cluster_tunnel["auto_redirect_to_identity"]
@@ -26,16 +27,16 @@ resource "cloudflare_zero_trust_access_application" "homepage_app" {
   destinations = [
     {
       type = "public"
-      uri  = var.homepage["domain"]
+      uri  = var.traefik["domain"]
     }
   ]
-  logo_url = var.homepage["logo_url"]
+  #logo_url = var.traefik["logo_url"]
 }
 
-## Record for Homepage
-resource "cloudflare_dns_record" "homepage_record" {
+## Record for traefik
+resource "cloudflare_dns_record" "traefik_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.homepage["domain"]
+  name    = "${var.traefik["name"]}.${var.nserbin_website["domain"]}"
   content = var.k3s_cluster_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

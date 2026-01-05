@@ -123,3 +123,11 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "raspberry_pi_public_
 }
 
 
+## k3s Cluster Tunnel
+resource "cloudflare_zero_trust_tunnel_cloudflared" "k3s_cluster_tunnel" {
+  account_id = var.accounts_settings["cloudflare_account"]
+
+  name          = var.k3s_cluster_tunnel["name"]
+  config_src    = "cloudflare"
+  tunnel_secret = var.k3s_cluster_tunnel["secret"]
+}

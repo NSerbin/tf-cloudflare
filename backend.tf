@@ -4,20 +4,32 @@ resource "cloudflare_zero_trust_access_application" "backend_app" {
   name                       = var.backend["name"]
   domain                     = var.backend["domain"]
   type                       = var.raspberry_pi_tunnel["type"]
-  session_duration           = var.raspberry_pi_tunnel["session_duration"]
+  session_duration           = var.backend["session_duration"]
   auto_redirect_to_identity  = var.raspberry_pi_tunnel["auto_redirect_to_identity"]
   http_only_cookie_attribute = true
   options_preflight_bypass   = false
-  policies = [
-    {
-      name       = "Bypass Policy"
-      precedence = 1
-      decision   = "bypass"
-      include = [{
-        everyone = {}
-      }]
-    }
-  ]
+  skip_interstitial          = true
+  # policies = [
+  #   {
+  #     name       = "Bypass Policy"
+  #     precedence = 1
+  #     decision   = "bypass"
+  #     include = [{
+  #       everyone = {}
+  #     }]
+  #   }
+  # ]
+
+  policies = [{
+    name       = "allow-gha-service-token"
+    precedence = 1
+    decision   = "allow"
+    include = [{
+      service_token = {
+        token_id = cloudflare_zero_trust_access_service_token.backend_zero_trust_access_service_token.id
+      }
+    }]
+  }]
 
   destinations = [
     {
@@ -37,4 +49,10 @@ resource "cloudflare_dns_record" "backend_record" {
   proxied = var.dns_records["proxied"]
   comment = var.raspberry_pi_tunnel["comment"]
 
+}
+
+resource "cloudflare_zero_trust_access_service_token" "backend_zero_trust_access_service_token" {
+  name     = "TF Backend - GH Actions"
+  zone_id  = cloudflare_zone.nserbin_website_zone.id
+  duration = "60m"
 }

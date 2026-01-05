@@ -29,6 +29,17 @@ raspberry_pi_tunnel = {
   comment                   = "Raspberry PI Tunnel"
 }
 
+k3s_cluster_tunnel = {
+  name                      = "k3s-cluster"
+  secret                    = "${K3S_TOKEN}"
+  warp_routing              = false
+  auto_redirect_to_identity = false
+  type                      = "self_hosted"
+  session_duration          = "24h"
+  record                    = "${K3S_TOKEN}"
+  comment                   = "k3s Cluster Tunnel"
+}
+
 mailersend = {
   proxied      = false
   comment      = "${MAILSENDER_COMMENT}"
@@ -68,21 +79,18 @@ github_sso = {
 grafana = {
   prefix   = "monitor"
   name     = "grafana"
-  url      = "${GRAFANA_URL}"
   domain   = "${GRAFANA_DOMAIN}"
   logo_url = "${GRAFANA_LOGO_URL}"
 }
 
 cadvisor = {
   name     = "cadvisor"
-  url      = "${CADVISOR_URL}"
   domain   = "${CADVISOR_DOMAIN}"
   logo_url = "${CADVISOR_LOGO_URL}"
 }
 
 prometheus = {
   name     = "prometheus"
-  url      = "${PROMETHEUS_URL}"
   domain   = "${PROMETHEUS_DOMAIN}"
   logo_url = "${PROMETHEUS_LOGO_URL}"
 }
@@ -90,21 +98,32 @@ prometheus = {
 freshrss = {
   name     = "freshrss"
   prefix   = "rss"
-  url      = "${FRESHRSS_URL}"
   domain   = "${FRESHRSS_DOMAIN}"
   logo_url = "${FRESHRSS_LOGO_URL}"
 }
 
+freedium-web = {
+  prefix   = "free"
+  name     = "freedium"
+  domain   = "${FREEDIUM_DOMAIN}"
+  logo_url = ""
+}
+
+authentik = {
+  prefix   = "auth"
+  name     = "authentik"
+  domain   = "${AUTHENTIK_DOMAIN}"
+  logo_url = ""
+}
+
 homepage = {
   name     = "home"
-  url      = "${HOMEPAGE_URL}"
   domain   = "${HOMEPAGE_DOMAIN}"
   logo_url = "${HOMEPAGE_LOGO_URL}"
 }
 
 n8n = {
   name     = "n8n"
-  url      = "${N8N_URL}"
   domain   = "${N8N_DOMAIN}"
   logo_url = "${N8N_LOGO_URL}"
 }
@@ -112,28 +131,24 @@ n8n = {
 filebrowser = {
   name     = "FileBrowser"
   prefix   = "vault"
-  url      = "${FILEBROWSER_URL}"
   domain   = "${FILEBROWSER_DOMAIN}"
   logo_url = "${FILEBROWSER_LOGO_URL}"
 }
 
 uptimekuma = {
   name     = "status"
-  url      = "${UPTIMEKUMA_URL}"
   domain   = "${UPTIMEKUMA_DOMAIN}"
   logo_url = "${UPTIMEKUMA_LOGO_URL}"
 }
 
 portainer = {
   name     = "portainer"
-  url      = "${PORTAINER_URL}"
   domain   = "${PORTAINER_DOMAIN}"
   logo_url = "${PORTAINER_LOGO_URL}"
 }
 
 pihole = {
   name     = "pihole"
-  url      = "${PIHOLE_URL}"
   domain   = "${PIHOLE_DOMAIN}"
   logo_url = "${PIHOLE_LOGO_URL}"
 }
@@ -141,7 +156,6 @@ pihole = {
 bitwarden = {
   name         = "bitwarden"
   prefix       = "btw"
-  url          = "${BITWARDEN_URL}"
   domain       = "${BITWARDEN_DOMAIN}"
   admin_domain = "${BITWARDEN_ADMIN_DOMAIN}"
   logo_url     = "${BITWARDEN_LOGO_URL}"
@@ -149,19 +163,52 @@ bitwarden = {
 
 ssh = {
   name   = "SSH Tunnel"
-  url    = "${SSH_URL}"
   domain = "${SSH_DOMAIN}"
   type   = "ssh"
 }
 
 backend = {
   name   = "tf-backend"
-  url    = "${BACKEND_URL}"
   domain = "${BACKEND_DOMAIN}"
 }
 
 docuseal = {
   name   = "docs"
-  url    = "${DOCUSEAL_URL}"
   domain = "${DOCUSEAL_DOMAIN}"
+}
+
+traefik = {
+  name   = "traefik"
+  domain = "${TRAEFIK_DOMAIN}"
+  #logo_url = ""
+}
+
+argo = {
+  name   = "argo"
+  domain = "${ARGO_DOMAIN}"
+  #logo_url = ""
+}
+
+grimoire = {
+  name   = "grimoire"
+  domain = "${GRIMOIRE_DOMAIN}"
+  #logo_url = ""
+}
+
+it-tools = {
+  name   = "it-tools"
+  domain = "tools.nserbin.com"
+  #logo_url = ""
+}
+
+yopass = {
+  name   = "yopass"
+  domain = "${YOPASS_DOMAIN}"
+  #logo_url = ""
+}
+
+alertmanager = {
+  name   = "alertmanager"
+  domain = "${ALERTMANAGER_DOMAIN}"
+  #logo_url = ""
 }

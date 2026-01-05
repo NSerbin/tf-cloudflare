@@ -94,7 +94,19 @@ resource "cloudflare_dns_record" "mailersend_return_path" {
 
 }
 
-### TXT Records
+### Customize Records
+
+# resource "cloudflare_dns_record" "mailersend_customize" {
+#   zone_id = cloudflare_zone.nserbin_website_zone.id
+#   name    = "${var.mailersend["return_name"]}"
+#   content = var.mailersend["return_vale"]
+#   type    = var.dns_records["type"]
+#   ttl     = var.dns_records["ttl"]
+#   proxied = var.mailersend["proxied"]
+#   comment = var.mailersend["comment"]
+# }
+
+## TXT Records
 
 resource "cloudflare_dns_record" "mailersend_txt" {
   zone_id = cloudflare_zone.nserbin_website_zone.id

@@ -22,11 +22,18 @@ variable "raspberry_pi_tunnel" {
   default     = {}
 }
 
+variable "k3s_cluster_tunnel" {
+  description = "Map containing all unified configuration for Raspberry Pi"
+  type        = map(string)
+  default     = {}
+}
+
 variable "mailersend_domainkey" {
   description = "Map containing all unified configuration for Mailersend"
   type        = map(string)
   default     = {}
 }
+
 
 variable "mailersend" {
   description = "Map containing all unified configuration for Mailersend"
@@ -72,6 +79,18 @@ variable "prometheus" {
 
 variable "freshrss" {
   description = "Map containing all Freshrss App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "freedium-web" {
+  description = "Map containing all Freedium Web App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "authentik" {
+  description = "Map containing all Authentik App configuration"
   type        = map(string)
   default     = {}
 }
@@ -132,6 +151,42 @@ variable "backend" {
 
 variable "docuseal" {
   description = "Map containing all docuseal configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "traefik" {
+  description = "Map containing all Traefik App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "argo" {
+  description = "Map containing all Argo App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "grimoire" {
+  description = "Map containing all Grimoire App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "it-tools" {
+  description = "Map containing all It-Tools App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "yopass" {
+  description = "Map containing all Yopass App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "alertmanager" {
+  description = "Map containing all Alertmanager App configuration"
   type        = map(string)
   default     = {}
 }
