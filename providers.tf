@@ -2,11 +2,7 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-<<<<<<< HEAD
-      version = "5.18.0"
-=======
       version = "5.20.0"
->>>>>>> 6fb438b (Adding github actions runner)
     }
   }
 
