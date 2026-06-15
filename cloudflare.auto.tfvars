@@ -36,7 +36,7 @@ k3s_cluster_tunnel = {
   auto_redirect_to_identity = false
   type                      = "self_hosted"
   session_duration          = "24h"
-  record                    = "${K3S_TOKEN}"
+  record                    = "${K3S_TUNNEL_ID}"
   comment                   = "k3s Cluster Tunnel"
 }
 
@@ -167,11 +167,6 @@ ssh = {
   type   = "ssh"
 }
 
-backend = {
-  name   = "tf-backend"
-  domain = "${BACKEND_DOMAIN}"
-}
-
 docuseal = {
   name   = "docs"
   domain = "${DOCUSEAL_DOMAIN}"
@@ -189,15 +184,21 @@ argo = {
   #logo_url = ""
 }
 
-grimoire = {
-  name   = "grimoire"
-  domain = "${GRIMOIRE_DOMAIN}"
+karakeep = {
+  name   = "karakeep"
+  domain = "${KARAKEEP_DOMAIN}"
+  #logo_url = ""
+}
+
+appflowy = {
+  name   = "appflowy"
+  domain = "${APPFLOWY_DOMAIN}"
   #logo_url = ""
 }
 
 it-tools = {
   name   = "it-tools"
-  domain = "tools.nserbin.com"
+  domain = "${IT_TOOLS_DOMAIN}"
   #logo_url = ""
 }
 
@@ -210,5 +211,11 @@ yopass = {
 alertmanager = {
   name   = "alertmanager"
   domain = "${ALERTMANAGER_DOMAIN}"
+  #logo_url = ""
+}
+
+vault = {
+  name   = "vault"
+  domain = "${VAULT_DOMAIN}"
   #logo_url = ""
 }

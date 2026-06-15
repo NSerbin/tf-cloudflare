@@ -83,7 +83,6 @@ locals {
         }
       )
     }),
-    var.backend,
     var.docuseal
   ]
 }

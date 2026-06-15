@@ -143,12 +143,6 @@ variable "ssh" {
   default     = {}
 }
 
-variable "backend" {
-  description = "Map containing all Backend configuration"
-  type        = map(string)
-  default     = {}
-}
-
 variable "docuseal" {
   description = "Map containing all docuseal configuration"
   type        = map(string)
@@ -167,8 +161,14 @@ variable "argo" {
   default     = {}
 }
 
-variable "grimoire" {
-  description = "Map containing all Grimoire App configuration"
+variable "karakeep" {
+  description = "Map containing all Karakeep App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "appflowy" {
+  description = "Map containing all AppFlowy App configuration"
   type        = map(string)
   default     = {}
 }
@@ -187,6 +187,12 @@ variable "yopass" {
 
 variable "alertmanager" {
   description = "Map containing all Alertmanager App configuration"
+  type        = map(string)
+  default     = {}
+}
+
+variable "vault" {
+  description = "Map containing all Vault App configuration"
   type        = map(string)
   default     = {}
 }

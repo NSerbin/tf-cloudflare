@@ -1,8 +1,8 @@
-## Bitwarden App Access
-resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
+## AppFlowy App Access
+resource "cloudflare_zero_trust_access_application" "appflowy_app" {
   zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.bitwarden["name"]
-  domain                     = var.bitwarden["domain"]
+  name                       = var.appflowy["name"]
+  domain                     = var.appflowy["domain"]
   type                       = var.k3s_cluster_tunnel["type"]
   session_duration           = var.k3s_cluster_tunnel["session_duration"]
   auto_redirect_to_identity  = var.k3s_cluster_tunnel["auto_redirect_to_identity"]
@@ -21,29 +21,23 @@ resource "cloudflare_zero_trust_access_application" "bitwarden_app" {
     }
   ]
 
-  logo_url                 = var.bitwarden["logo_url"]
   options_preflight_bypass = false
 
   destinations = [
     {
       type = "public"
-      uri  = var.bitwarden["domain"]
-    },
-    {
-      type = "public"
-      uri  = var.bitwarden["admin_domain"]
-    },
+      uri  = var.appflowy["domain"]
+    }
   ]
 }
 
-## Record for Bitwarden
-resource "cloudflare_dns_record" "bitwarden_record" {
+## Record for AppFlowy
+resource "cloudflare_dns_record" "appflowy_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = "${var.bitwarden["prefix"]}.${var.nserbin_website["domain"]}"
+  name    = var.appflowy["domain"]
   content = var.k3s_cluster_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
   proxied = var.dns_records["proxied"]
   comment = var.k3s_cluster_tunnel["comment"]
-
 }

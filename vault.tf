@@ -1,8 +1,8 @@
-## grimoire App
-resource "cloudflare_zero_trust_access_application" "grimoire_app" {
+## vault App
+resource "cloudflare_zero_trust_access_application" "vault_app" {
   zone_id                    = cloudflare_zone.nserbin_website_zone.id
-  name                       = var.grimoire["name"]
-  domain                     = var.grimoire["domain"]
+  name                       = var.vault["name"]
+  domain                     = var.vault["domain"]
   type                       = var.k3s_cluster_tunnel["type"]
   session_duration           = var.k3s_cluster_tunnel["session_duration"]
   auto_redirect_to_identity  = var.k3s_cluster_tunnel["auto_redirect_to_identity"]
@@ -13,30 +13,30 @@ resource "cloudflare_zero_trust_access_application" "grimoire_app" {
 
   policies = [
     {
-      name       = "Default Policy"
+      name       = "Bypass Policy"
       precedence = 1
-      decision   = "allow"
+      decision   = "bypass"
       include = [{
-        group = {
-          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
-        }
+        everyone = {}
       }]
+      require = []
+      exclude = []
     }
   ]
 
   destinations = [
     {
       type = "public"
-      uri  = var.grimoire["domain"]
+      uri  = var.vault["domain"]
     }
   ]
-  #logo_url = var.grimoire["logo_url"]
+  #logo_url = var.vault["logo_url"]
 }
 
-## Record for grimoire
-resource "cloudflare_dns_record" "grimoire_record" {
+## Record for vault
+resource "cloudflare_dns_record" "vault_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = var.grimoire["domain"]
+  name    = var.vault["domain"]
   content = var.k3s_cluster_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]

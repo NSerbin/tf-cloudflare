@@ -13,14 +13,14 @@ resource "cloudflare_zero_trust_access_application" "argo_app" {
 
   policies = [
     {
-      name       = "Default Policy"
+      name       = "Bypass Policy"
       precedence = 1
-      decision   = "allow"
+      decision   = "bypass"
       include = [{
-        group = {
-          id = cloudflare_zero_trust_access_group.raspberry_pi_tunnel_access_group.id
-        }
+        everyone = {}
       }]
+      require = []
+      exclude = []
     }
   ]
 
@@ -36,7 +36,7 @@ resource "cloudflare_zero_trust_access_application" "argo_app" {
 ## Record for argo
 resource "cloudflare_dns_record" "argo_record" {
   zone_id = cloudflare_zone.nserbin_website_zone.id
-  name    = "${var.argo["name"]}.${var.nserbin_website["domain"]}"
+  name    = var.argo["domain"]
   content = var.k3s_cluster_tunnel["record"]
   type    = var.dns_records["type"]
   ttl     = var.dns_records["ttl"]
