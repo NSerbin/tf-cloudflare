@@ -196,3 +196,9 @@ variable "vault" {
   type        = map(string)
   default     = {}
 }
+
+variable "outline" {
+  description = "Map containing all Outline App configuration"
+  type        = map(string)
+  default     = {}
+}

@@ -219,3 +219,9 @@ vault = {
   domain = "${VAULT_DOMAIN}"
   #logo_url = ""
 }
+
+outline = {
+  name     = "Outline"
+  domain   = "docs.nserbin.com"
+  logo_url = "https://github.com/outline.png"
+}
